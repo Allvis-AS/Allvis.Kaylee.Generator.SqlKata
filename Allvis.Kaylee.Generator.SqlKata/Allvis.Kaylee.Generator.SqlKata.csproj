@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Allvis.Kaylee.Generator.SqlKata</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Sindre van der Linden</Authors>
+    <Company>Allvis AS</Company>
+    <Description>Generates SqlKata abstractions for the AST produced by Allvis.Kaylee.Analyzer, using the new Roslyn Source Generator capabilities which ship with .NET 5.</Description>
+    <PackageTags>Kaylee;DSL;Model;Analyzer;Generator;Roslyn</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="SqlKata" Version="2.2.0" />
+    <PackageReference Include="SqlKata.Execution" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CaseExtensions" Version="1.0.3" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Package the generator in the analyzer directory of the nuget package -->
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+    <!-- Package the CaseExtensions dependency alongside the generator assembly -->
+    <None Include="$(PkgCaseExtensions)\lib\netstandard1.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+</Project>
