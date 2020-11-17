@@ -35,6 +35,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             sb.WriteExists(entity);
             sb.WriteInsert(entity);
             sb.WriteInsertMany(entity);
+            sb.WriteDelete(entity);
             foreach (var child in entity.Children)
             {
                 sb.Write(child);
@@ -160,6 +161,32 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 sb.I(sb =>
                 {
                     sb.AL(@".AsInsert(_columns, _values);");
+                });
+            });
+        }
+
+        private static void WriteDelete(this SourceBuilder sb, Entity entity)
+        {
+            var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
+            var fullPrimaryKey = entity.GetFullPrimaryKey();
+            var parameters = fullPrimaryKey.Select(fr =>
+            {
+                var field = fr.ResolvedField;
+                return (field.Type.ToCSharp(), field.Name.ToCamelCase());
+            });
+            sb.PublicStaticMethod("SqlKata.Query", $"Delete_{entityName}", parameters, sb =>
+            {
+                var viewName = entity.DisplayName.Replace(".", "").Replace("::", ".tbl_");
+                sb.AL($@"return new SqlKata.Query(""{viewName}"")");
+                sb.I(sb =>
+                {
+                    foreach (var field in fullPrimaryKey)
+                    {
+                        var fieldName = field.FieldName;
+                        var parameterName = fieldName.ToCamelCase();
+                        sb.AL($@".Where(""{fieldName}"", {parameterName})");
+                    }
+                    sb.AL(@".AsDelete();");
                 });
             });
         }

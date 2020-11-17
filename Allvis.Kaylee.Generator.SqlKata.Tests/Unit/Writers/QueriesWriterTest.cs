@@ -75,6 +75,12 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             return new SqlKata.Query(""auth.tbl_User"")
                 .AsInsert(_columns, _values);
         }
+        public static SqlKata.Query Delete_auth_User(System.Guid userId)
+        {
+            return new SqlKata.Query(""auth.tbl_User"")
+                .Where(""UserId"", userId)
+                .AsDelete();
+        }
         public static SqlKata.Query Exists_auth_UserRole(System.Guid userId, System.Guid roleId)
         {
             return new SqlKata.Query(""auth.v_UserRole"")
@@ -106,6 +112,13 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             });
             return new SqlKata.Query(""auth.tbl_UserRole"")
                 .AsInsert(_columns, _values);
+        }
+        public static SqlKata.Query Delete_auth_UserRole(System.Guid userId, System.Guid roleId)
+        {
+            return new SqlKata.Query(""auth.tbl_UserRole"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsDelete();
         }
     }
 }
