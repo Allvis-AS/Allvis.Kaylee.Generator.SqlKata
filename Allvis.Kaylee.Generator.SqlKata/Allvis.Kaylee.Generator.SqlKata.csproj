@@ -8,6 +8,8 @@
     <Description>Generates SqlKata abstractions for the AST produced by "Allvis.Kaylee.Analyzer", using the new Roslyn Source Generator capabilities which ship with .NET 5.</Description>
     <PackageTags>Kaylee;DSL;Model;Analyzer;Generator;Roslyn</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Allvis-AS/Allvis.Kaylee.Generator.SqlKata.git</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
