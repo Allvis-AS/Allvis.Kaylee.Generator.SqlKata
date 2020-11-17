@@ -5,9 +5,11 @@
     <Version>0.0.1</Version>
     <Authors>Sindre van der Linden</Authors>
     <Company>Allvis AS</Company>
-    <Description>Generates SqlKata abstractions for the AST produced by Allvis.Kaylee.Analyzer, using the new Roslyn Source Generator capabilities which ship with .NET 5.</Description>
+    <Description>Generates SqlKata abstractions for the AST produced by "Allvis.Kaylee.Analyzer", using the new Roslyn Source Generator capabilities which ship with .NET 5.</Description>
     <PackageTags>Kaylee;DSL;Model;Analyzer;Generator;Roslyn</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Allvis-AS/Allvis.Kaylee.Generator.SqlKata.git</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,6 +17,8 @@
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
   </PropertyGroup>
 
@@ -25,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Allvis.Kaylee.Analyzer" Version="0.0.4" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="CaseExtensions" Version="1.0.3" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1" PrivateAssets="all" />
@@ -33,6 +38,9 @@
   <ItemGroup>
     <!-- Package the generator in the analyzer directory of the nuget package -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+    <!-- Package the Allvis.Kaylee.Analyzer dependency alongside the generator assembly -->
+    <None Include="$(PkgAllvis_Kaylee_Analyzer)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 
     <!-- Package the CaseExtensions dependency alongside the generator assembly -->
     <None Include="$(PkgCaseExtensions)\lib\netstandard1.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
