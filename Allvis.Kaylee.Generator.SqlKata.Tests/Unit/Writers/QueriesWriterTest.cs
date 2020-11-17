@@ -34,6 +34,23 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .SelectRaw(""1"")
                 .Limit(1);
         }
+        public static SqlKata.Query Get_auth_User(System.Guid userId)
+        {
+            return new SqlKata.Query(""auth.v_User"")
+                .Where(""UserId"", userId)
+                .Select(""UserId"")
+                .Select(""FirstName"")
+                .Select(""LastName"")
+                .Select(""ContactEmail"");
+        }
+        public static SqlKata.Query Get_auth_User()
+        {
+            return new SqlKata.Query(""auth.v_User"")
+                .Select(""UserId"")
+                .Select(""FirstName"")
+                .Select(""LastName"")
+                .Select(""ContactEmail"");
+        }
         public static SqlKata.Query Insert_auth_User(System.Guid? userId, string? firstName, string? lastName, string contactEmail)
         {
             var _columns = new System.Collections.Generic.List<string>();
@@ -114,6 +131,30 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Where(""RoleId"", roleId)
                 .SelectRaw(""1"")
                 .Limit(1);
+        }
+        public static SqlKata.Query Get_auth_UserRole(System.Guid userId, System.Guid roleId)
+        {
+            return new SqlKata.Query(""auth.v_UserRole"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""Flag"");
+        }
+        public static SqlKata.Query Get_auth_UserRole(System.Guid userId)
+        {
+            return new SqlKata.Query(""auth.v_UserRole"")
+                .Where(""UserId"", userId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""Flag"");
+        }
+        public static SqlKata.Query Get_auth_UserRole()
+        {
+            return new SqlKata.Query(""auth.v_UserRole"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""Flag"");
         }
         public static SqlKata.Query Insert_auth_UserRole(System.Guid userId, System.Guid roleId, int? flag)
         {
