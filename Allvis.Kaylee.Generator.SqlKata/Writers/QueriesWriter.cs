@@ -33,7 +33,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         private static void Write(this SourceBuilder sb, Entity entity)
         {
             sb.WriteExists(entity);
-            
+            sb.WriteInsert(entity);
+            sb.WriteInsertMany(entity);
             foreach (var child in entity.Children)
             {
                 sb.Write(child);
@@ -49,7 +50,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var field = fr.ResolvedField;
                 return (field.Type.ToCSharp(), field.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("SqlKata.Query", $"{entityName}_Exists", parameters, sb =>
+            sb.PublicStaticMethod("SqlKata.Query", $"Exists_{entityName}", parameters, sb =>
             {
                 var viewName = entity.DisplayName.Replace(".", "").Replace("::", ".v_");
                 sb.AL($@"return new SqlKata.Query(""{viewName}"")");
@@ -63,6 +64,102 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     }
                     sb.AL(@".SelectRaw(""1"")");
                     sb.AL(@".Limit(1);");
+                });
+            });
+        }
+
+        private static void WriteInsert(this SourceBuilder sb, Entity entity)
+        {
+            bool IsOptional(Field field)
+            {
+                var partOfParentKey = field.Entity != entity;
+                return !partOfParentKey && (field.HasDefault() || field.Nullable);
+            }
+
+            var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
+            var fullPrimaryKey = entity.GetFullPrimaryKey();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct();
+            var parameters = allFields.Select(f => (IsOptional(f), f.Type.ToCSharp(), f.Name.ToCamelCase()));
+            sb.PublicStaticMethod("SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
+            {
+                sb.AL("var _columns = new System.Collections.Generic.List<string>();");
+                sb.AL("var _values = new System.Collections.Generic.List<object>();");
+                foreach (var field in allFields)
+                {
+                    var fieldName = field.Name;
+                    var parameterName = fieldName.ToCamelCase();
+                    var optional = IsOptional(field);
+                    if (optional)
+                    {
+                        sb.AL($"if ({parameterName} != null)");
+                        sb.B(sb =>
+                        {
+                            sb.AL($@"_columns.Add(""{fieldName}"");");
+                            sb.AL($@"_values.Add({parameterName});");
+                        });
+                    }
+                    else
+                    {
+                        sb.AL($@"_columns.Add(""{fieldName}"");");
+                        sb.AL($@"_values.Add({parameterName});");
+                    }
+                }
+                var tableName = entity.DisplayName.Replace(".", "").Replace("::", ".tbl_");
+                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.I(sb =>
+                {
+                    sb.AL(@".AsInsert(_columns, _values);");
+                });
+            });
+        }
+
+        private static void WriteInsertMany(this SourceBuilder sb, Entity entity)
+        {
+            bool IsNullable(Field field)
+            {
+                var partOfParentKey = field.Entity != entity;
+                return !partOfParentKey && field.Nullable;
+            }
+
+            var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
+            var fullPrimaryKey = entity.GetFullPrimaryKey();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct();
+            var tupleParameters = allFields.Select(f =>
+            {
+                var nullable = IsNullable(f);
+                var type = f.Type.ToCSharp();
+                return (nullable ? $"{type}?" : type, f.Name.ToPascalCase());
+            });
+            var parameters = new[] { ($"System.Collections.Generic.IEnumerable<({tupleParameters.Join()})>", "rows") };
+            sb.PublicStaticMethod("SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
+            {
+                sb.AL("var _columns = new string[] {");
+                sb.I(sb =>
+                {
+                    allFields.ForEach((field, last) =>
+                    {
+                        var fieldName = field.Name;
+                        var comma = last ? "" : ",";
+                        sb.AL($@"""{fieldName}""{comma}");
+                    });
+                });
+                sb.AL("};");
+                sb.AL("var _values = rows.Select(_row => new object[] {");
+                sb.I(sb =>
+                {
+                    allFields.ForEach((field, last) =>
+                    {
+                        var parameterName = field.Name.ToPascalCase();
+                        var comma = last ? "" : ",";
+                        sb.AL($@"_row.{parameterName}{comma}");
+                    });
+                });
+                sb.AL("});");
+                var tableName = entity.DisplayName.Replace(".", "").Replace("::", ".tbl_");
+                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.I(sb =>
+                {
+                    sb.AL(@".AsInsert(_columns, _values);");
                 });
             });
         }

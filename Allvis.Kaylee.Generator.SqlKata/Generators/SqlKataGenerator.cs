@@ -3,7 +3,9 @@ using Allvis.Kaylee.Analyzer;
 using Allvis.Kaylee.Analyzer.Exceptions;
 using Allvis.Kaylee.Analyzer.Models;
 using Allvis.Kaylee.Generator.SqlKata.Extensions;
+using Allvis.Kaylee.Generator.SqlKata.Writers;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Allvis.Kaylee.Generator.SqlKata
 {
@@ -86,7 +88,9 @@ namespace Allvis.Kaylee.Generator.SqlKata
 
         private void AddQueries(GeneratorExecutionContext context, Ast ast)
         {
-            // context.AddSource("Allvis.Kaylee.Generated.SqlKata.Queries", source);
+            var queries = QueriesWriter.Write(ast);
+            var source = SourceText.From(queries);
+            context.AddSource("Allvis.Kaylee.Generated.SqlKata.Queries", source);
         }
     }
 }

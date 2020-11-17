@@ -11,6 +11,9 @@ schema auth {
             UserId GUID {
                 default = NEWID();
             }
+            FirstName? TEXT(100);
+            LastName? TEXT(100);
+            ContactEmail TEXT(254);
         }
 
         keys {

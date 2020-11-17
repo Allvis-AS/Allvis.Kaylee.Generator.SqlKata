@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Allvis.Kaylee.Analyzer" Version="0.0.3" />
+    <PackageReference Include="Allvis.Kaylee.Analyzer" Version="0.0.4" />
     <PackageReference Include="CaseExtensions" Version="1.0.3" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
 
