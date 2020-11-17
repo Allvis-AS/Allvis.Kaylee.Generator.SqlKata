@@ -30,7 +30,6 @@ namespace Allvis.Kaylee.Generator.SqlKata
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            throw new System.NotImplementedException();
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -40,15 +39,9 @@ namespace Allvis.Kaylee.Generator.SqlKata
             {
                 return;
             }
+            AddModels(context, ast);
             AddQueries(context, ast);
-            // if (model != null)
-            // {
-            //     AddUtilities(context);
-            //     AddTypeHandlers(context);
-            //     AddViewModels(context, model.Views);
-            //     AddPackages(context, model.Packages);
-            //     AddQueries(context, model.Views, model.Packages);
-            // }
+            AddQueryFactoryExtensions(context, ast);
         }
 
         private Ast? ParseModel(GeneratorExecutionContext context)
@@ -86,11 +79,28 @@ namespace Allvis.Kaylee.Generator.SqlKata
             return sb.ToString();
         }
 
+        private void AddModels(GeneratorExecutionContext context, Ast ast)
+        {
+            var models = ModelsWriter.Write(ast);
+            foreach (var model in models)
+            {
+                var source = SourceText.From(model.Source);
+                context.AddSource(model.HintName, source);
+            }
+        }
+
         private void AddQueries(GeneratorExecutionContext context, Ast ast)
         {
             var queries = QueriesWriter.Write(ast);
             var source = SourceText.From(queries);
             context.AddSource("Allvis.Kaylee.Generated.SqlKata.Queries", source);
+        }
+
+        private void AddQueryFactoryExtensions(GeneratorExecutionContext context, Ast ast)
+        {
+            var queryFactoryExtensions = QueryFactoryExtensionsWriter.Write(ast);
+            var source = SourceText.From(queryFactoryExtensions);
+            context.AddSource("Allvis.Kaylee.Generated.SqlKata.Extensions.QueryFactoryExtensions", source);
         }
     }
 }
