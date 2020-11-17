@@ -36,6 +36,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             sb.WriteInsert(entity);
             sb.WriteInsertMany(entity);
             sb.WriteDelete(entity);
+            foreach (var mutation in entity.Mutations)
+            {
+                sb.WriteUpdate(mutation);
+            }
             foreach (var child in entity.Children)
             {
                 sb.Write(child);
@@ -53,7 +57,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             });
             sb.PublicStaticMethod("SqlKata.Query", $"Exists_{entityName}", parameters, sb =>
             {
-                var viewName = entity.DisplayName.Replace(".", "").Replace("::", ".v_");
+                var viewName = entity.GetViewName();
                 sb.AL($@"return new SqlKata.Query(""{viewName}"")");
                 sb.I(sb =>
                 {
@@ -105,7 +109,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                         sb.AL($@"_values.Add({parameterName});");
                     }
                 }
-                var tableName = entity.DisplayName.Replace(".", "").Replace("::", ".tbl_");
+                var tableName = entity.GetTableName();
                 sb.AL($@"return new SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
@@ -156,7 +160,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     });
                 });
                 sb.AL("});");
-                var tableName = entity.DisplayName.Replace(".", "").Replace("::", ".tbl_");
+                var tableName = entity.GetTableName();
                 sb.AL($@"return new SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
@@ -176,8 +180,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             });
             sb.PublicStaticMethod("SqlKata.Query", $"Delete_{entityName}", parameters, sb =>
             {
-                var viewName = entity.DisplayName.Replace(".", "").Replace("::", ".tbl_");
-                sb.AL($@"return new SqlKata.Query(""{viewName}"")");
+                var tableName = entity.GetTableName();
+                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
                     foreach (var field in fullPrimaryKey)
@@ -187,6 +191,62 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                         sb.AL($@".Where(""{fieldName}"", {parameterName})");
                     }
                     sb.AL(@".AsDelete();");
+                });
+            });
+        }
+
+        private static void WriteUpdate(this SourceBuilder sb, Mutation mutation)
+        {
+            bool IsNullable(Field field)
+            {
+                var partOfParentKey = field.Entity != mutation.Entity;
+                return !partOfParentKey && field.Nullable;
+            }
+
+            var entityName = mutation.Entity.DisplayName.Replace(".", "").Replace("::", "_");
+            var mutationName = mutation.Name;
+            var fullPrimaryKey = mutation.Entity.GetFullPrimaryKey();
+            var allFields = fullPrimaryKey.Concat(mutation.FieldReferences).Select(fr => fr.ResolvedField).Distinct();
+            var parameters = allFields.Select(f =>
+            {
+                return (IsNullable(f), f.Type.ToCSharp(), f.Name.ToCamelCase());
+            });
+            sb.PublicStaticMethod("SqlKata.Query", $"Update_{entityName}_{mutationName}", parameters, sb =>
+            {
+                var fields = mutation.FieldReferences.Select(fr => fr.ResolvedField);
+                sb.AL("var _columns = new string[] {");
+                sb.I(sb =>
+                {
+                    fields.ForEach((field, last) =>
+                    {
+                        var fieldName = field.Name;
+                        var comma = last ? "" : ",";
+                        sb.AL($@"""{fieldName}""{comma}");
+                    });
+                });
+                sb.AL("};");
+                sb.AL("var _values = new object[] {");
+                sb.I(sb =>
+                {
+                    fields.ForEach((field, last) =>
+                    {
+                        var parameterName = field.Name.ToCamelCase();
+                        var comma = last ? "" : ",";
+                        sb.AL($@"_row.{parameterName}{comma}");
+                    });
+                });
+                sb.AL("};");
+                var tableName = mutation.Entity.GetTableName();
+                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.I(sb =>
+                {
+                    foreach (var field in fullPrimaryKey)
+                    {
+                        var fieldName = field.FieldName;
+                        var parameterName = fieldName.ToCamelCase();
+                        sb.AL($@".Where(""{fieldName}"", {parameterName})");
+                    }
+                    sb.AL(@".AsUpdate(_columns, _values);");
                 });
             });
         }
