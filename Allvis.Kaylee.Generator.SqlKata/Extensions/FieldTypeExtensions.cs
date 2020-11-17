@@ -17,6 +17,24 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
                 FieldType.GUID => "System.Guid",
                 FieldType.DATE => "System.DateTimeOffset",
                 FieldType.ROWVERSION => "string",
+                // FieldType.BINARY => "byte[]"
+                _ => throw new ArgumentOutOfRangeException(nameof(fieldType))
+            };
+        }
+
+        public static string ToCSharpIdentity(this FieldType fieldType)
+        {
+            return fieldType switch
+            {
+                FieldType.BIT => "",
+                FieldType.TINYINT => "",
+                FieldType.INT => "",
+                FieldType.CHAR => "string.Empty",
+                FieldType.TEXT => "string.Empty",
+                FieldType.GUID => "",
+                FieldType.DATE => "",
+                FieldType.ROWVERSION => "string.Empty",
+                // FieldType.BINARY => "Array.Empty<byte>()"
                 _ => throw new ArgumentOutOfRangeException(nameof(fieldType))
             };
         }

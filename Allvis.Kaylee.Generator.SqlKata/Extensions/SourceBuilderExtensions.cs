@@ -7,6 +7,20 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
 {
     public static class SourceBuilderExtensions
     {
+        public static void PublicClass(
+            this SourceBuilder sb,
+            string ns,
+            string className,
+            Action<SourceBuilder> builder)
+        {
+            sb.AL($"namespace {ns}");
+            sb.B(sb =>
+            {
+                sb.AL($"public class {className}");
+                sb.B(builder);
+            });
+        }
+
         public static void PublicStaticClass(
             this SourceBuilder sb,
             string ns,

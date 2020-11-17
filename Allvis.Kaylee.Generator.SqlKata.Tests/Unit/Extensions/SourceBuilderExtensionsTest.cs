@@ -9,6 +9,27 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
     public class SourceBuilderExtensionsTest
     {
         [Fact]
+        public void TestPublicClass()
+        {
+            // Arrange
+            var sb = new SourceBuilder();
+            // Act
+            sb.PublicClass("Hello.World", "Foo", sb =>
+            {
+                sb.AL("System.Console.WriteLine(\"Hello World!\");");
+            });
+            // Assert
+            Assert.Equal(@"namespace Hello.World
+{
+    public class Foo
+    {
+        System.Console.WriteLine(""Hello World!"");
+    }
+}
+", sb.ToString());
+        }
+
+        [Fact]
         public void TestPublicStaticClass()
         {
             // Arrange

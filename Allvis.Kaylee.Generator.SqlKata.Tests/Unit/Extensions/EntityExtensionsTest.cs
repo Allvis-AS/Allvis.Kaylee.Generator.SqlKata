@@ -52,5 +52,18 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             // Assert
             Assert.Equal("auth.tbl_UserRole", viewName);
         }
+
+        [Fact]
+        public void TestGetModelName()
+        {
+            // Arrange
+            var tSchema = AuthSchemaFixture.Create();
+            var ast = KayleeHelper.Parse(tSchema);
+            var userRole = ast.Locate("auth", new[] { "User", "Role" });
+            // Act
+            var modelName = userRole.GetModelName();
+            // Assert
+            Assert.Equal("UserRole", modelName);
+        }
     }
 }

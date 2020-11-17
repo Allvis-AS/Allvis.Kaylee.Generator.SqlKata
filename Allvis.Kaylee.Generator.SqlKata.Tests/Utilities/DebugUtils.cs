@@ -7,8 +7,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Utilities
     {
         public static Task WriteGeneratedFileToDisk(string fileName, string contents)
         {
-            Directory.CreateDirectory("gen");
-            return File.WriteAllTextAsync(Path.Combine("gen", fileName), contents);
+            var path = Path.Combine("gen", fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            return File.WriteAllTextAsync(path, contents);
         }
     }
 }
