@@ -81,6 +81,32 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Where(""UserId"", userId)
                 .AsDelete();
         }
+        public static SqlKata.Query Update_auth_User_FullName(System.Guid userId, string? firstName, string? lastName)
+        {
+            var _columns = new string[] {
+                ""FirstName"",
+                ""LastName""
+            };
+            var _values = new object[] {
+                firstName,
+                lastName
+            };
+            return new SqlKata.Query(""auth.tbl_User"")
+                .Where(""UserId"", userId)
+                .AsUpdate(_columns, _values);
+        }
+        public static SqlKata.Query Update_auth_User_ContactInformation(System.Guid userId, string contactEmail)
+        {
+            var _columns = new string[] {
+                ""ContactEmail""
+            };
+            var _values = new object[] {
+                contactEmail
+            };
+            return new SqlKata.Query(""auth.tbl_User"")
+                .Where(""UserId"", userId)
+                .AsUpdate(_columns, _values);
+        }
         public static SqlKata.Query Exists_auth_UserRole(System.Guid userId, System.Guid roleId)
         {
             return new SqlKata.Query(""auth.v_UserRole"")
@@ -89,7 +115,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .SelectRaw(""1"")
                 .Limit(1);
         }
-        public static SqlKata.Query Insert_auth_UserRole(System.Guid userId, System.Guid roleId)
+        public static SqlKata.Query Insert_auth_UserRole(System.Guid userId, System.Guid roleId, int? flag)
         {
             var _columns = new System.Collections.Generic.List<string>();
             var _values = new System.Collections.Generic.List<object>();
@@ -97,18 +123,25 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             _values.Add(userId);
             _columns.Add(""RoleId"");
             _values.Add(roleId);
+            if (flag != null)
+            {
+                _columns.Add(""Flag"");
+                _values.Add(flag);
+            }
             return new SqlKata.Query(""auth.tbl_UserRole"")
                 .AsInsert(_columns, _values);
         }
-        public static SqlKata.Query Insert_auth_UserRole(System.Collections.Generic.IEnumerable<(System.Guid UserId, System.Guid RoleId)> rows)
+        public static SqlKata.Query Insert_auth_UserRole(System.Collections.Generic.IEnumerable<(System.Guid UserId, System.Guid RoleId, int Flag)> rows)
         {
             var _columns = new string[] {
                 ""UserId"",
-                ""RoleId""
+                ""RoleId"",
+                ""Flag""
             };
             var _values = rows.Select(_row => new object[] {
                 _row.UserId,
-                _row.RoleId
+                _row.RoleId,
+                _row.Flag
             });
             return new SqlKata.Query(""auth.tbl_UserRole"")
                 .AsInsert(_columns, _values);
@@ -119,6 +152,19 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Where(""UserId"", userId)
                 .Where(""RoleId"", roleId)
                 .AsDelete();
+        }
+        public static SqlKata.Query Update_auth_UserRole_Flag(System.Guid userId, System.Guid roleId, int flag)
+        {
+            var _columns = new string[] {
+                ""Flag""
+            };
+            var _values = new object[] {
+                flag
+            };
+            return new SqlKata.Query(""auth.tbl_UserRole"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsUpdate(_columns, _values);
         }
     }
 }

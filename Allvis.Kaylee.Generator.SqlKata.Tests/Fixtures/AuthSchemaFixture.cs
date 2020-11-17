@@ -20,13 +20,25 @@ schema auth {
             primary = UserId;
         }
 
+        mutations {
+            FullName(FirstName, LastName);
+            ContactInformation(ContactEmail);
+        }
+
         entity Role {
             fields {
                 RoleId GUID;
+                Flag INT {
+                    default = 0;
+                }
             }
 
             keys {
                 primary = RoleId;
+            }
+
+            mutations {
+                Flag(Flag);
             }
         }
     }

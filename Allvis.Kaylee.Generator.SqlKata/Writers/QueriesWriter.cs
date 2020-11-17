@@ -232,7 +232,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     {
                         var parameterName = field.Name.ToCamelCase();
                         var comma = last ? "" : ",";
-                        sb.AL($@"_row.{parameterName}{comma}");
+                        sb.AL($@"{parameterName}{comma}");
                     });
                 });
                 sb.AL("};");
