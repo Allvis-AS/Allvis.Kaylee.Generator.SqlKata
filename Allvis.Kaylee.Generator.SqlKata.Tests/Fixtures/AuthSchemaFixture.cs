@@ -14,6 +14,9 @@ schema auth {
             FirstName? TEXT(100);
             LastName? TEXT(100);
             ContactEmail TEXT(254);
+            NormalizedContactEmail TEXT(254) {
+                computed = true;
+            }
         }
 
         keys {

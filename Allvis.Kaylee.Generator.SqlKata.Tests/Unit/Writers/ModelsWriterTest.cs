@@ -38,6 +38,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string ContactEmail { get; set; } = string.Empty;
+        public string NormalizedContactEmail { get; set; } = string.Empty;
     }
 }
 ", model.Source);

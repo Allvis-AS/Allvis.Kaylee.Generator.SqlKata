@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Allvis.Kaylee.Analyzer.Extensions;
 using Allvis.Kaylee.Analyzer.Models;
 using Allvis.Kaylee.Generator.SqlKata.Builders;
 using Allvis.Kaylee.Generator.SqlKata.Extensions;
 using CaseExtensions;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace Allvis.Kaylee.Generator.SqlKata.Writers
 {
@@ -112,7 +113,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields.Where(f => !f.Computed)).Distinct();
             var parameters = allFields.Select(f => (Optional: IsOptional(f), Type: f.Type.ToCSharp(), Name: f.Name.ToCamelCase()));
             sb.PublicStaticMethod("System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
@@ -131,7 +132,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields.Where(f => !f.Computed)).Distinct();
             var tupleParameters = allFields.Select(f =>
             {
                 var nullable = IsNullable(f);

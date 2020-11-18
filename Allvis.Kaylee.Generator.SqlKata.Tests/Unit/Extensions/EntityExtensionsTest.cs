@@ -11,23 +11,6 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
     public class EntityExtensionsTest
     {
         [Fact]
-        public void TestGetFullPrimaryKey()
-        {
-            // Arrange
-            var tSchema = AuthSchemaFixture.Create();
-            var ast = KayleeHelper.Parse(tSchema);
-            var userRole = ast.Locate("auth", new[] { "User", "Role" });
-            // Act
-            var fullPrimaryKey = userRole.GetFullPrimaryKey();
-            // Assert
-            var expected = new[] {
-                userRole.Parent.PrimaryKey.Single(),
-                userRole.PrimaryKey.Single()
-            };
-            Assert.Equal(expected, fullPrimaryKey);
-        }
-
-        [Fact]
         public void TestGetViewName()
         {
             // Arrange

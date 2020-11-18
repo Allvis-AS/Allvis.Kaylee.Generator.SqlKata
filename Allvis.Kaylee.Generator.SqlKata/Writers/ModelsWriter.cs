@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Allvis.Kaylee.Analyzer.Extensions;
 using Allvis.Kaylee.Analyzer.Models;
 using Allvis.Kaylee.Generator.SqlKata.Builders;
 using Allvis.Kaylee.Generator.SqlKata.Extensions;
 using CaseExtensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Allvis.Kaylee.Generator.SqlKata.Writers
 {

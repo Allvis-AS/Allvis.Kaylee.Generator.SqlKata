@@ -41,7 +41,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Select(""UserId"")
                 .Select(""FirstName"")
                 .Select(""LastName"")
-                .Select(""ContactEmail"");
+                .Select(""ContactEmail"")
+                .Select(""NormalizedContactEmail"");
         }
         public static SqlKata.Query Get_auth_User()
         {
@@ -49,7 +50,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Select(""UserId"")
                 .Select(""FirstName"")
                 .Select(""LastName"")
-                .Select(""ContactEmail"");
+                .Select(""ContactEmail"")
+                .Select(""NormalizedContactEmail"");
         }
         public static SqlKata.Query Insert_auth_User(System.Guid? userId, string? firstName, string? lastName, string contactEmail)
         {
