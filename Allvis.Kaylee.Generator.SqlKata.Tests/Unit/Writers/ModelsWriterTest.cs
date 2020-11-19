@@ -39,6 +39,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
         public string? LastName { get; set; }
         public string ContactEmail { get; set; } = string.Empty;
         public string NormalizedContactEmail { get; set; } = string.Empty;
+        public byte[] Hash { get; set; } = System.Array.Empty<byte>();
+        public byte[]? Picture { get; set; }
     }
 }
 ", model.Source);

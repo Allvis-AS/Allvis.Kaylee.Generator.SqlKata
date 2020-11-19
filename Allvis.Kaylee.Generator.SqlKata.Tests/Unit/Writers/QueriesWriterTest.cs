@@ -42,7 +42,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Select(""FirstName"")
                 .Select(""LastName"")
                 .Select(""ContactEmail"")
-                .Select(""NormalizedContactEmail"");
+                .Select(""NormalizedContactEmail"")
+                .Select(""Hash"")
+                .Select(""Picture"");
         }
         public static SqlKata.Query Get_auth_User()
         {
@@ -51,9 +53,11 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
                 .Select(""FirstName"")
                 .Select(""LastName"")
                 .Select(""ContactEmail"")
-                .Select(""NormalizedContactEmail"");
+                .Select(""NormalizedContactEmail"")
+                .Select(""Hash"")
+                .Select(""Picture"");
         }
-        public static SqlKata.Query Insert_auth_User(System.Guid? userId, string? firstName, string? lastName, string contactEmail)
+        public static SqlKata.Query Insert_auth_User(System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture)
         {
             var _columns = new System.Collections.Generic.List<string>();
             var _values = new System.Collections.Generic.List<object>();
@@ -74,22 +78,33 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             }
             _columns.Add(""ContactEmail"");
             _values.Add(contactEmail);
+            _columns.Add(""Hash"");
+            _values.Add(hash);
+            if (picture != null)
+            {
+                _columns.Add(""Picture"");
+                _values.Add(picture);
+            }
             return new SqlKata.Query(""auth.tbl_User"")
                 .AsInsert(_columns, _values);
         }
-        public static SqlKata.Query Insert_auth_User(System.Collections.Generic.IEnumerable<(System.Guid UserId, string? FirstName, string? LastName, string ContactEmail)> rows)
+        public static SqlKata.Query Insert_auth_User(System.Collections.Generic.IEnumerable<(System.Guid UserId, string? FirstName, string? LastName, string ContactEmail, byte[] Hash, byte[]? Picture)> rows)
         {
             var _columns = new string[] {
                 ""UserId"",
                 ""FirstName"",
                 ""LastName"",
-                ""ContactEmail""
+                ""ContactEmail"",
+                ""Hash"",
+                ""Picture""
             };
             var _values = rows.Select(_row => new object[] {
                 _row.UserId,
                 _row.FirstName,
                 _row.LastName,
-                _row.ContactEmail
+                _row.ContactEmail,
+                _row.Hash,
+                _row.Picture
             });
             return new SqlKata.Query(""auth.tbl_User"")
                 .AsInsert(_columns, _values);

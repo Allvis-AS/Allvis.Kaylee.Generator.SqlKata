@@ -40,11 +40,11 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
         {
             return _db.GetAsync<Models.auth.User>(Queries.Get_auth_User());
         }
-        public static System.Threading.Tasks.Task<int> Insert_auth_User(this SqlKata.Execution.QueryFactory _db, System.Guid? userId, string? firstName, string? lastName, string contactEmail)
+        public static System.Threading.Tasks.Task<int> Insert_auth_User(this SqlKata.Execution.QueryFactory _db, System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture)
         {
-            return _db.ExecuteAsync(Queries.Insert_auth_User(userId, firstName, lastName, contactEmail));
+            return _db.ExecuteAsync(Queries.Insert_auth_User(userId, firstName, lastName, contactEmail, hash, picture));
         }
-        public static System.Threading.Tasks.Task<int> Insert_auth_User(this SqlKata.Execution.QueryFactory _db, System.Collections.Generic.IEnumerable<(System.Guid UserId, string? FirstName, string? LastName, string ContactEmail)> rows)
+        public static System.Threading.Tasks.Task<int> Insert_auth_User(this SqlKata.Execution.QueryFactory _db, System.Collections.Generic.IEnumerable<(System.Guid UserId, string? FirstName, string? LastName, string ContactEmail, byte[] Hash, byte[]? Picture)> rows)
         {
             return _db.ExecuteAsync(Queries.Insert_auth_User(rows));
         }
