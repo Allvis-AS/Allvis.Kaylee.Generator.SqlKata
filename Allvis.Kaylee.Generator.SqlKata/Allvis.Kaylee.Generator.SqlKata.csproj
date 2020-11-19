@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>Allvis.Kaylee.Generator.SqlKata</PackageId>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <Authors>Sindre van der Linden</Authors>
     <Company>Allvis AS</Company>
     <Description>Generates SqlKata abstractions for the AST produced by "Allvis.Kaylee.Analyzer", using the new Roslyn Source Generator capabilities which ship with .NET 5.</Description>
@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.8.0" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Allvis.Kaylee.Analyzer" Version="0.0.6" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="CaseExtensions" Version="1.0.3" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" PrivateAssets="all" />
@@ -38,6 +39,9 @@
   <ItemGroup>
     <!-- Package the generator in the analyzer directory of the nuget package -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+    <!-- Package the Antlr4.Runtime.Standard dependency alongside the generator assembly -->
+    <None Include="$(PkgAntlr4_Runtime_Standard)\lib\netstandard1.3\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 
     <!-- Package the Allvis.Kaylee.Analyzer dependency alongside the generator assembly -->
     <None Include="$(PkgAllvis_Kaylee_Analyzer)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
