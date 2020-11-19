@@ -21,7 +21,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             var source = QueriesWriter.Write(ast);
             // Assert
             await DebugUtils.WriteGeneratedFileToDisk("Queries.cs", source).ConfigureAwait(false);
-            Assert.Equal(@"namespace Allvis.Kaylee.Generated.SqlKata
+            Assert.Equal(@"using System.Linq;
+
+namespace Allvis.Kaylee.Generated.SqlKata
 {
     public static class Queries
     {

@@ -21,14 +21,16 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             var source = QueryFactoryExtensionsWriter.Write(ast);
             // Assert
             await DebugUtils.WriteGeneratedFileToDisk("QueryFactoryExtensions.cs", source).ConfigureAwait(false);
-            Assert.Equal(@"namespace Allvis.Kaylee.Generated.SqlKata.Extensions
+            Assert.Equal(@"using System.Linq;
+
+namespace Allvis.Kaylee.Generated.SqlKata.Extensions
 {
     public static class QueryFactoryExtensions
     {
         public static async global::System.Threading.Tasks.Task<bool> Exists_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
             var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_User(userId)).ConfigureAwait(false);
-            return global::System.Linq.Enumerable.Any(_rows);
+            return _rows.Any();
         }
         public static global::System.Threading.Tasks.Task<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User> Get_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
@@ -61,7 +63,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
         public static async global::System.Threading.Tasks.Task<bool> Exists_auth_UserRole(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
         {
             var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_UserRole(userId, roleId)).ConfigureAwait(false);
-            return global::System.Linq.Enumerable.Any(_rows);
+            return _rows.Any();
         }
         public static global::System.Threading.Tasks.Task<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserRole> Get_auth_UserRole(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
         {

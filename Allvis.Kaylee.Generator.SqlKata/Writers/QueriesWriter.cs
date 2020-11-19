@@ -14,6 +14,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         public static string Write(Ast ast)
         {
             var sb = new SourceBuilder();
+            sb.AL("using System.Linq;");
+            sb.NL();
             sb.PublicStaticClass("Allvis.Kaylee.Generated.SqlKata", "Queries", sb =>
             {
                 foreach (var schema in ast.Schemata)
