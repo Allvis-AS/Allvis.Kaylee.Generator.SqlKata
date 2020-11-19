@@ -14,8 +14,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
                 FieldType.INT => "int",
                 FieldType.CHAR => "string",
                 FieldType.TEXT => "string",
-                FieldType.GUID => "System.Guid",
-                FieldType.DATE => "System.DateTimeOffset",
+                FieldType.GUID => "global::System.Guid",
+                FieldType.DATE => "global::System.DateTimeOffset",
                 FieldType.ROWVERSION => "string",
                 FieldType.VARBINARY => "byte[]",
                 FieldType.BINARY => "byte[]",
@@ -35,8 +35,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
                 FieldType.GUID => "",
                 FieldType.DATE => "",
                 FieldType.ROWVERSION => "string.Empty",
-                FieldType.VARBINARY => "System.Array.Empty<byte>()",
-                FieldType.BINARY => "System.Array.Empty<byte>()",
+                FieldType.VARBINARY => "global::System.Array.Empty<byte>()",
+                FieldType.BINARY => "global::System.Array.Empty<byte>()",
                 _ => throw new ArgumentOutOfRangeException(nameof(fieldType))
             };
         }

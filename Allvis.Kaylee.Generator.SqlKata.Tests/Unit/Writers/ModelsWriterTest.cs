@@ -4,7 +4,6 @@ using Allvis.Kaylee.Generator.SqlKata.Writers;
 using System.IO;
 using Allvis.Kaylee.Generator.SqlKata.Tests.Fixtures;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using Allvis.Kaylee.Generator.SqlKata.Utilities;
 using Allvis.Kaylee.Analyzer;
 
@@ -34,12 +33,12 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
 {
     public class User
     {
-        public System.Guid UserId { get; set; }
+        public global::System.Guid UserId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string ContactEmail { get; set; } = string.Empty;
         public string NormalizedContactEmail { get; set; } = string.Empty;
-        public byte[] Hash { get; set; } = System.Array.Empty<byte>();
+        public byte[] Hash { get; set; } = global::System.Array.Empty<byte>();
         public byte[]? Picture { get; set; }
     }
 }
@@ -51,8 +50,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
 {
     public class UserRole
     {
-        public System.Guid UserId { get; set; }
-        public System.Guid RoleId { get; set; }
+        public global::System.Guid UserId { get; set; }
+        public global::System.Guid RoleId { get; set; }
         public int Flag { get; set; }
     }
 }

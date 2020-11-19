@@ -58,17 +58,17 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var field = fr.ResolvedField;
                 return (Type: field.Type.ToCSharp(), Name: field.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("async System.Threading.Tasks.Task<bool>", $"Exists_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
+            sb.PublicStaticMethod("async global::System.Threading.Tasks.Task<bool>", $"Exists_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
                 var arguments = string.Join(", ", parameters.Select(p => p.Name));
-                sb.AL($"var _rows = await _db.GetAsync<int>(Queries.Exists_{entityName}({arguments})).ConfigureAwait(false);");
-                sb.AL("return System.Linq.Enumerable.Any(_rows);");
+                sb.AL($"var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_{entityName}({arguments})).ConfigureAwait(false);");
+                sb.AL("return global::System.Linq.Enumerable.Any(_rows);");
             });
         }
 
         private static void WriteGet(this SourceBuilder sb, Entity entity)
         {
-            var modelName = $"Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
+            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
             var parameters = fullPrimaryKey.Select(fr =>
@@ -86,13 +86,13 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             {
                 var singular = stackedParameters.Count == parameters.Count;
                 var returnType = singular
-                    ? $"System.Threading.Tasks.Task<{modelName}>"
-                    : $"System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<{modelName}>>";
+                    ? $"global::System.Threading.Tasks.Task<{modelName}>"
+                    : $"global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<{modelName}>>";
                 sb.PublicStaticMethod(returnType, $"Get_{entityName}", stackedParameters.Reverse().PrefixWithQueryFactory(), sb =>
                 {
                     var getMethod = singular ? "FirstAsync" : "GetAsync";
                     var arguments = string.Join(", ", stackedParameters.Reverse().Select(p => p.Name));
-                    sb.AL($@"return _db.{getMethod}<{modelName}>(Queries.Get_{entityName}({arguments}));");
+                    sb.AL($@"return _db.{getMethod}<{modelName}>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_{entityName}({arguments}));");
                 });
                 if (stackedParameters.Count > 0)
                 {
@@ -115,10 +115,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             var fullPrimaryKey = entity.GetFullPrimaryKey();
             var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields.Where(f => !f.Computed)).Distinct();
             var parameters = allFields.Select(f => (Optional: IsOptional(f), Type: f.Type.ToCSharp(), Name: f.Name.ToCamelCase()));
-            sb.PublicStaticMethod("System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
+            sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
                 var arguments = string.Join(", ", parameters.Select(p => p.Name));
-                sb.AL($"return _db.ExecuteAsync(Queries.Insert_{entityName}({arguments}));");
+                sb.AL($"return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_{entityName}({arguments}));");
             });
         }
 
@@ -139,11 +139,11 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var type = f.Type.ToCSharp();
                 return (nullable ? $"{type}?" : type, f.Name.ToPascalCase());
             });
-            var parameters = new[] { (Type: $"System.Collections.Generic.IEnumerable<({tupleParameters.Join()})>", Name: "rows") };
-            sb.PublicStaticMethod("System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
+            var parameters = new[] { (Type: $"global::System.Collections.Generic.IEnumerable<({tupleParameters.Join()})>", Name: "rows") };
+            sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
                 var arguments = string.Join(", ", parameters.Select(p => p.Name));
-                sb.AL($"return _db.ExecuteAsync(Queries.Insert_{entityName}({arguments}));");
+                sb.AL($"return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_{entityName}({arguments}));");
             });
         }
 
@@ -156,10 +156,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var field = fr.ResolvedField;
                 return (Type: field.Type.ToCSharp(), Name: field.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("System.Threading.Tasks.Task<int>", $"Delete_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
+            sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Delete_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
                 var arguments = string.Join(", ", parameters.Select(p => p.Name));
-                sb.AL($"return _db.ExecuteAsync(Queries.Delete_{entityName}({arguments}));");
+                sb.AL($"return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_{entityName}({arguments}));");
             });
         }
 
@@ -179,17 +179,17 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             {
                 return (Optional: IsNullable(f), Type: f.Type.ToCSharp(), Name: f.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("System.Threading.Tasks.Task<int>", $"Update_{entityName}_{mutationName}", parameters.PrefixWithQueryFactory(), sb =>
+            sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Update_{entityName}_{mutationName}", parameters.PrefixWithQueryFactory(), sb =>
             {
                 var arguments = string.Join(", ", parameters.Select(p => p.Name));
-                sb.AL($"return _db.ExecuteAsync(Queries.Update_{entityName}_{mutationName}({arguments}));");
+                sb.AL($"return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_{entityName}_{mutationName}({arguments}));");
             });
         }
 
         private static IEnumerable<(bool Optional, string Type, string Name)> PrefixWithQueryFactory(this IEnumerable<(bool Optional, string Type, string Name)> parameters)
-            => new[] { (false, "this SqlKata.Execution.QueryFactory", "_db") }.Concat(parameters);
+            => new[] { (false, "this global::SqlKata.Execution.QueryFactory", "_db") }.Concat(parameters);
 
         private static IEnumerable<(string Type, string Name)> PrefixWithQueryFactory(this IEnumerable<(string Type, string Name)> parameters)
-            => new[] { ("this SqlKata.Execution.QueryFactory", "_db") }.Concat(parameters);
+            => new[] { ("this global::SqlKata.Execution.QueryFactory", "_db") }.Concat(parameters);
     }
 }

@@ -58,10 +58,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var field = fr.ResolvedField;
                 return (field.Type.ToCSharp(), field.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("SqlKata.Query", $"Exists_{entityName}", parameters, sb =>
+            sb.PublicStaticMethod("global::SqlKata.Query", $"Exists_{entityName}", parameters, sb =>
             {
                 var viewName = entity.GetViewName();
-                sb.AL($@"return new SqlKata.Query(""{viewName}"")");
+                sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
                 sb.I(sb =>
                 {
                     foreach (var field in fullPrimaryKey)
@@ -93,10 +93,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             var i = stackedParameters.Count;
             while (i >= 0)
             {
-                sb.PublicStaticMethod("SqlKata.Query", $"Get_{entityName}", stackedParameters.Reverse(), sb =>
+                sb.PublicStaticMethod("global::SqlKata.Query", $"Get_{entityName}", stackedParameters.Reverse(), sb =>
                 {
                     var viewName = entity.GetViewName();
-                    sb.AL($@"return new SqlKata.Query(""{viewName}"")");
+                    sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
                     sb.I(sb =>
                     {
                         foreach (var field in stackedFullPrimaryKey.Reverse())
@@ -135,10 +135,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             var fullPrimaryKey = entity.GetFullPrimaryKey();
             var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields.Where(f => !f.Computed)).Distinct();
             var parameters = allFields.Select(f => (IsOptional(f), f.Type.ToCSharp(), f.Name.ToCamelCase()));
-            sb.PublicStaticMethod("SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
+            sb.PublicStaticMethod("global::SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
             {
-                sb.AL("var _columns = new System.Collections.Generic.List<string>();");
-                sb.AL("var _values = new System.Collections.Generic.List<object>();");
+                sb.AL("var _columns = new global::System.Collections.Generic.List<string>();");
+                sb.AL("var _values = new global::System.Collections.Generic.List<object>();");
                 foreach (var field in allFields)
                 {
                     var fieldName = field.Name;
@@ -160,7 +160,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     }
                 }
                 var tableName = entity.GetTableName();
-                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.AL($@"return new global::SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
                     sb.AL(@".AsInsert(_columns, _values);");
@@ -185,8 +185,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var type = f.Type.ToCSharp();
                 return (nullable ? $"{type}?" : type, f.Name.ToPascalCase());
             });
-            var parameters = new[] { ($"System.Collections.Generic.IEnumerable<({tupleParameters.Join()})>", "rows") };
-            sb.PublicStaticMethod("SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
+            var parameters = new[] { ($"global::System.Collections.Generic.IEnumerable<({tupleParameters.Join()})>", "rows") };
+            sb.PublicStaticMethod("global::SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
             {
                 sb.AL("var _columns = new string[] {");
                 sb.I(sb =>
@@ -211,7 +211,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 });
                 sb.AL("});");
                 var tableName = entity.GetTableName();
-                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.AL($@"return new global::SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
                     sb.AL(@".AsInsert(_columns, _values);");
@@ -228,10 +228,10 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 var field = fr.ResolvedField;
                 return (field.Type.ToCSharp(), field.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("SqlKata.Query", $"Delete_{entityName}", parameters, sb =>
+            sb.PublicStaticMethod("global::SqlKata.Query", $"Delete_{entityName}", parameters, sb =>
             {
                 var tableName = entity.GetTableName();
-                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.AL($@"return new global::SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
                     foreach (var field in fullPrimaryKey)
@@ -261,7 +261,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             {
                 return (IsNullable(f), f.Type.ToCSharp(), f.Name.ToCamelCase());
             });
-            sb.PublicStaticMethod("SqlKata.Query", $"Update_{entityName}_{mutationName}", parameters, sb =>
+            sb.PublicStaticMethod("global::SqlKata.Query", $"Update_{entityName}_{mutationName}", parameters, sb =>
             {
                 var fields = mutation.FieldReferences.Select(fr => fr.ResolvedField);
                 sb.AL("var _columns = new string[] {");
@@ -287,7 +287,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 });
                 sb.AL("};");
                 var tableName = mutation.Entity.GetTableName();
-                sb.AL($@"return new SqlKata.Query(""{tableName}"")");
+                sb.AL($@"return new global::SqlKata.Query(""{tableName}"")");
                 sb.I(sb =>
                 {
                     foreach (var field in fullPrimaryKey)
