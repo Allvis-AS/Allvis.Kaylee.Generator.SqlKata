@@ -84,7 +84,7 @@ namespace Allvis.Kaylee.Generator.SqlKata
             var models = ModelsWriter.Write(ast);
             foreach (var model in models)
             {
-                var source = SourceText.From(model.Source);
+                var source = SourceText.From(model.Source, Encoding.UTF8);
                 context.AddSource(model.HintName, source);
             }
         }
@@ -92,14 +92,14 @@ namespace Allvis.Kaylee.Generator.SqlKata
         private void AddQueries(GeneratorExecutionContext context, Ast ast)
         {
             var queries = QueriesWriter.Write(ast);
-            var source = SourceText.From(queries);
+            var source = SourceText.From(queries, Encoding.UTF8);
             context.AddSource("Allvis.Kaylee.Generated.SqlKata.Queries", source);
         }
 
         private void AddQueryFactoryExtensions(GeneratorExecutionContext context, Ast ast)
         {
             var queryFactoryExtensions = QueryFactoryExtensionsWriter.Write(ast);
-            var source = SourceText.From(queryFactoryExtensions);
+            var source = SourceText.From(queryFactoryExtensions, Encoding.UTF8);
             context.AddSource("Allvis.Kaylee.Generated.SqlKata.Extensions.QueryFactoryExtensions", source);
         }
     }
