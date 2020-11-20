@@ -71,9 +71,9 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
             var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_UserRole(userId, roleId)).ConfigureAwait(false);
             return _rows.Any();
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, int Count)> Count_auth_UserRole_GroupBy_UserId(this global::SqlKata.Execution.QueryFactory _db)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, int Count)>> Count_auth_UserRole_GroupBy_UserId(this global::SqlKata.Execution.QueryFactory _db)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRole_GroupBy_UserId());
+            return _db.GetAsync<(global::System.Guid UserId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRole_GroupBy_UserId());
         }
         public static global::System.Threading.Tasks.Task<int> Count_auth_UserRole(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
@@ -116,21 +116,21 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
             var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_UserRoleLog(userId, roleId, logId)).ConfigureAwait(false);
             return _rows.Any();
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int Count)> Count_auth_UserRoleLog_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>> Count_auth_UserRoleLog_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog_GroupBy_UserId_RoleId(userId));
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog_GroupBy_UserId_RoleId(userId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int Count)> Count_auth_UserRoleLog_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>> Count_auth_UserRoleLog_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog_GroupBy_UserId_RoleId());
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog_GroupBy_UserId_RoleId());
         }
         public static global::System.Threading.Tasks.Task<int> Count_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
         {
             return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog(userId, roleId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, int Count)> Count_auth_UserRoleLog_GroupBy_UserId(this global::SqlKata.Execution.QueryFactory _db)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, int Count)>> Count_auth_UserRoleLog_GroupBy_UserId(this global::SqlKata.Execution.QueryFactory _db)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog_GroupBy_UserId());
+            return _db.GetAsync<(global::System.Guid UserId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLog_GroupBy_UserId());
         }
         public static global::System.Threading.Tasks.Task<int> Count_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
@@ -173,37 +173,37 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
             var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_UserRoleLogTrace(userId, roleId, logId, traceId)).ConfigureAwait(false);
             return _rows.Any();
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)>> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(userId, roleId));
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(userId, roleId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)>> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(userId));
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(userId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(this global::SqlKata.Execution.QueryFactory _db)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)>> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(this global::SqlKata.Execution.QueryFactory _db)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId());
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId());
         }
         public static global::System.Threading.Tasks.Task<int> Count_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int logId)
         {
             return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace(userId, roleId, logId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int Count)> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(userId));
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(userId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, global::System.Guid RoleId, int Count)> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>> Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(this global::SqlKata.Execution.QueryFactory _db)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId());
+            return _db.GetAsync<(global::System.Guid UserId, global::System.Guid RoleId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId());
         }
         public static global::System.Threading.Tasks.Task<int> Count_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
         {
             return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace(userId, roleId));
         }
-        public static global::System.Threading.Tasks.Task<(global::System.Guid UserId, int Count)> Count_auth_UserRoleLogTrace_GroupBy_UserId(this global::SqlKata.Execution.QueryFactory _db)
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, int Count)>> Count_auth_UserRoleLogTrace_GroupBy_UserId(this global::SqlKata.Execution.QueryFactory _db)
         {
-            return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId());
+            return _db.GetAsync<(global::System.Guid UserId, int Count)>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_UserRoleLogTrace_GroupBy_UserId());
         }
         public static global::System.Threading.Tasks.Task<int> Count_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {

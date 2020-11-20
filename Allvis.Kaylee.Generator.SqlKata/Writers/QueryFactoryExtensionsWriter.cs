@@ -106,9 +106,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                         var arguments = string.Join(", ", stackedPivotable.Skip(1).Reverse().Select(p => p.NameCamel));
                         var resultTuple = stackedGroupable.Reverse().Select(p => (p.Type, p.Name)).Concat(new[] { ("int", "Count") }).Join();
                         var groupByName = string.Join("_", stackedGroupable.Reverse().Select(p => p.Name));
-                        sb.PublicStaticMethod($"global::System.Threading.Tasks.Task<({resultTuple})>", $"Count_{entityName}_GroupBy_{groupByName}", parameters, sb =>
+                        sb.PublicStaticMethod($"global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<({resultTuple})>>", $"Count_{entityName}_GroupBy_{groupByName}", parameters, sb =>
                         {
-                            sb.AL($@"return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_{entityName}_GroupBy_{groupByName}({arguments}));");
+                            sb.AL($@"return _db.GetAsync<({resultTuple})>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_{entityName}_GroupBy_{groupByName}({arguments}));");
                         });
                     }
                     if (stackedPivotable.Count > 0)
