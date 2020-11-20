@@ -63,16 +63,33 @@ namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
 ", model.Source);
             }, model =>
             {
-                Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog", model.HintName);
+                Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserRoleLog", model.HintName);
                 Assert.Equal(@"#nullable enable
 
 namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
 {
-    public class UserLog
+    public class UserRoleLog
     {
         public global::System.Guid UserId { get; set; }
+        public global::System.Guid RoleId { get; set; }
         public int LogId { get; set; }
         public string Content { get; set; } = string.Empty;
+    }
+}
+", model.Source);
+            }, model =>
+            {
+                Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserRoleLogTrace", model.HintName);
+                Assert.Equal(@"#nullable enable
+
+namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
+{
+    public class UserRoleLogTrace
+    {
+        public global::System.Guid UserId { get; set; }
+        public global::System.Guid RoleId { get; set; }
+        public int LogId { get; set; }
+        public global::System.Guid TraceId { get; set; }
     }
 }
 ", model.Source);

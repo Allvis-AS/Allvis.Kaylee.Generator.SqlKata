@@ -76,28 +76,50 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
-            var parameters = fullPrimaryKey.Select(fr =>
+
+            var fields = fullPrimaryKey.Take(fullPrimaryKey.Count - 1).Select(fr =>
             {
                 var field = fr.ResolvedField;
-                return (field.Type.ToCSharp(), field.Name.ToCamelCase());
+                return (field.Type.ToCSharp(), field.Name, field.Name.ToCamelCase());
             }).ToList();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct().ToList();
 
-            var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey);
-            var stackedParameters = new Stack<(string Type, string Name)>(parameters);
-
-            var i = stackedParameters.Count;
+            var stackedGroupable = new Stack<(string Type, string Name, string NameCamel)>(fields);
+            var i = stackedGroupable.Count;
             while (i >= 0)
             {
-                sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Count_{entityName}", stackedParameters.Reverse().PrefixWithQueryFactory(), sb =>
+                var stackedPivotable = new Stack<(string Type, string Name, string NameCamel)>(fields.Take(i));
+                var j = stackedPivotable.Count;
+                while (j >= 0)
                 {
-                    var arguments = string.Join(", ", stackedParameters.Reverse().Select(p => p.Name));
-                    sb.AL($@"return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_{entityName}({arguments}));");
-                });
-                if (stackedParameters.Count > 0)
+                    if (j == 0)
+                    {
+                        var parameters = stackedGroupable.Select(p => (p.Type, p.NameCamel)).Reverse().PrefixWithQueryFactory();
+                        var arguments = string.Join(", ", stackedGroupable.Reverse().Select(p => p.NameCamel));
+                        sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Count_{entityName}", parameters, sb =>
+                        {
+                            sb.AL($@"return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_{entityName}({arguments}));");
+                        });
+                    }
+                    else if (i > 0)
+                    {
+                        var parameters = stackedPivotable.Skip(1).Select(p => (p.Type, p.NameCamel)).Reverse().PrefixWithQueryFactory();
+                        var arguments = string.Join(", ", stackedPivotable.Skip(1).Reverse().Select(p => p.NameCamel));
+                        var resultTuple = stackedGroupable.Reverse().Select(p => (p.Type, p.Name)).Concat(new[] { ("int", "Count") }).Join();
+                        var groupByName = string.Join("_", stackedGroupable.Reverse().Select(p => p.Name));
+                        sb.PublicStaticMethod($"global::System.Threading.Tasks.Task<({resultTuple})>", $"Count_{entityName}_GroupBy_{groupByName}", parameters, sb =>
+                        {
+                            sb.AL($@"return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_{entityName}_GroupBy_{groupByName}({arguments}));");
+                        });
+                    }
+                    if (stackedPivotable.Count > 0)
+                    {
+                        stackedPivotable.Pop();
+                    }
+                    j--;
+                }
+                if (stackedGroupable.Count > 0)
                 {
-                    stackedFullPrimaryKey.Pop();
-                    stackedParameters.Pop();
+                    stackedGroupable.Pop();
                 }
                 i--;
             }
@@ -144,13 +166,12 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsOptional(Field field)
             {
-                var partOfParentKey = field.Entity != entity;
-                return !partOfParentKey && (field.HasDefault() || field.Nullable);
+                return !field.IsPartOfParentKey(entity) && (field.HasDefault() || field.Nullable);
             }
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK()).Concat(entity.Fields.Where(f => f.IsInsertable())).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK(entity)).Concat(entity.Fields.Where(f => f.IsInsertable(entity))).Distinct();
             var parameters = allFields.Select(f => (Optional: IsOptional(f), Type: f.Type.ToCSharp(), Name: f.Name.ToCamelCase()));
             sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
@@ -163,13 +184,12 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsNullable(Field field)
             {
-                var partOfParentKey = field.Entity != entity;
-                return !partOfParentKey && field.Nullable;
+                return !field.IsPartOfParentKey(entity) && field.Nullable;
             }
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK()).Concat(entity.Fields.Where(f => f.IsInsertable())).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK(entity)).Concat(entity.Fields.Where(f => f.IsInsertable(entity))).Distinct();
             var tupleParameters = allFields.Select(f =>
             {
                 var nullable = IsNullable(f);
@@ -204,8 +224,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsNullable(Field field)
             {
-                var partOfParentKey = field.Entity != mutation.Entity;
-                return !partOfParentKey && field.Nullable;
+                return !field.IsPartOfParentKey(mutation.Entity) && field.Nullable;
             }
 
             var entityName = mutation.Entity.DisplayName.Replace(".", "").Replace("::", "_");

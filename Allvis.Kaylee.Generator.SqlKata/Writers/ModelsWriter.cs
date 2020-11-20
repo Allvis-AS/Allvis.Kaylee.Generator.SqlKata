@@ -38,8 +38,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsNullable(Field field)
             {
-                var partOfParentKey = field.Entity != entity;
-                return !partOfParentKey && field.Nullable;
+                return !field.IsPartOfParentKey(entity) && field.Nullable;
             }
 
             sb.AL("#nullable enable");

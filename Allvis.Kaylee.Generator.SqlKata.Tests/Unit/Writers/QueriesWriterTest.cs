@@ -36,12 +36,6 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .SelectRaw(""1"")
                 .Limit(1);
         }
-        public static global::SqlKata.Query Count_auth_User(global::System.Guid userId)
-        {
-            return new global::SqlKata.Query(""auth.v_User"")
-                .Where(""UserId"", userId)
-                .AsCount();
-        }
         public static global::SqlKata.Query Count_auth_User()
         {
             return new global::SqlKata.Query(""auth.v_User"")
@@ -164,12 +158,12 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .SelectRaw(""1"")
                 .Limit(1);
         }
-        public static global::SqlKata.Query Count_auth_UserRole(global::System.Guid userId, global::System.Guid roleId)
+        public static global::SqlKata.Query Count_auth_UserRole_GroupBy_UserId()
         {
             return new global::SqlKata.Query(""auth.v_UserRole"")
-                .Where(""UserId"", userId)
-                .Where(""RoleId"", roleId)
-                .AsCount();
+                .GroupBy(""UserId"")
+                .Select(""UserId"")
+                .SelectRaw(""COUNT(*) as Count"");
         }
         public static global::SqlKata.Query Count_auth_UserRole(global::System.Guid userId)
         {
@@ -257,85 +251,320 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""RoleId"", roleId)
                 .AsUpdate(_columns, _values);
         }
-        public static global::SqlKata.Query Exists_auth_UserLog(global::System.Guid userId, int logId)
+        public static global::SqlKata.Query Exists_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId, int logId)
         {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
                 .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
                 .Where(""LogId"", logId)
                 .SelectRaw(""1"")
                 .Limit(1);
         }
-        public static global::SqlKata.Query Count_auth_UserLog(global::System.Guid userId, int logId)
+        public static global::SqlKata.Query Count_auth_UserRoleLog_GroupBy_UserId_RoleId(global::System.Guid userId)
         {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
                 .Where(""UserId"", userId)
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLog_GroupBy_UserId_RoleId()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLog_GroupBy_UserId()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .GroupBy(""UserId"")
+                .Select(""UserId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLog(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .Where(""UserId"", userId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLog()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .AsCount();
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
                 .Where(""LogId"", logId)
-                .AsCount();
-        }
-        public static global::SqlKata.Query Count_auth_UserLog(global::System.Guid userId)
-        {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
-                .Where(""UserId"", userId)
-                .AsCount();
-        }
-        public static global::SqlKata.Query Count_auth_UserLog()
-        {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
-                .AsCount();
-        }
-        public static global::SqlKata.Query Get_auth_UserLog(global::System.Guid userId, int logId)
-        {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
-                .Where(""UserId"", userId)
-                .Where(""LogId"", logId)
                 .Select(""UserId"")
+                .Select(""RoleId"")
                 .Select(""LogId"")
                 .Select(""Content"");
         }
-        public static global::SqlKata.Query Get_auth_UserLog(global::System.Guid userId)
+        public static global::SqlKata.Query Get_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId)
         {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .Select(""Content"");
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLog(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
                 .Where(""UserId"", userId)
                 .Select(""UserId"")
+                .Select(""RoleId"")
                 .Select(""LogId"")
                 .Select(""Content"");
         }
-        public static global::SqlKata.Query Get_auth_UserLog()
+        public static global::SqlKata.Query Get_auth_UserRoleLog()
         {
-            return new global::SqlKata.Query(""auth.v_UserLog"")
+            return new global::SqlKata.Query(""auth.v_UserRoleLog"")
                 .Select(""UserId"")
+                .Select(""RoleId"")
                 .Select(""LogId"")
                 .Select(""Content"");
         }
-        public static global::SqlKata.Query Insert_auth_UserLog(global::System.Guid userId, string content)
+        public static global::SqlKata.Query Insert_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId, string content)
         {
             var _columns = new global::System.Collections.Generic.List<string>();
             var _values = new global::System.Collections.Generic.List<object?>();
             _columns.Add(""UserId"");
             _values.Add(userId);
+            _columns.Add(""RoleId"");
+            _values.Add(roleId);
             _columns.Add(""Content"");
             _values.Add(content);
-            return new global::SqlKata.Query(""auth.tbl_UserLog"")
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLog"")
                 .AsInsert(_columns, _values);
         }
-        public static global::SqlKata.Query Insert_auth_UserLog(global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string Content)> rows)
+        public static global::SqlKata.Query Insert_auth_UserRoleLog(global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, string Content)> rows)
         {
             var _columns = new string[] {
                 ""UserId"",
+                ""RoleId"",
                 ""Content""
             };
             var _values = rows.Select(_row => new object?[] {
                 _row.UserId,
+                _row.RoleId,
                 _row.Content
             });
-            return new global::SqlKata.Query(""auth.tbl_UserLog"")
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLog"")
                 .AsInsert(_columns, _values);
         }
-        public static global::SqlKata.Query Delete_auth_UserLog(global::System.Guid userId, int logId)
+        public static global::SqlKata.Query Delete_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId, int logId)
         {
-            return new global::SqlKata.Query(""auth.tbl_UserLog"")
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLog"")
                 .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
                 .Where(""LogId"", logId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Exists_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Where(""LogId"", logId)
+                .Where(""TraceId"", traceId)
+                .SelectRaw(""1"")
+                .Limit(1);
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .GroupBy(""LogId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .GroupBy(""LogId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId_LogId()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .GroupBy(""LogId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Where(""LogId"", logId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace_GroupBy_UserId_RoleId()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .GroupBy(""UserId"")
+                .GroupBy(""RoleId"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace_GroupBy_UserId()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .GroupBy(""UserId"")
+                .Select(""UserId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRoleLogTrace()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .AsCount();
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Where(""LogId"", logId)
+                .Where(""TraceId"", traceId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .Select(""TraceId"");
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Where(""LogId"", logId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .Select(""TraceId"");
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .Select(""TraceId"");
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLogTrace(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .Select(""TraceId"");
+        }
+        public static global::SqlKata.Query Get_auth_UserRoleLogTrace()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRoleLogTrace"")
+                .Select(""UserId"")
+                .Select(""RoleId"")
+                .Select(""LogId"")
+                .Select(""TraceId"");
+        }
+        public static global::SqlKata.Query Insert_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
+        {
+            var _columns = new global::System.Collections.Generic.List<string>();
+            var _values = new global::System.Collections.Generic.List<object?>();
+            _columns.Add(""UserId"");
+            _values.Add(userId);
+            _columns.Add(""RoleId"");
+            _values.Add(roleId);
+            _columns.Add(""LogId"");
+            _values.Add(logId);
+            _columns.Add(""TraceId"");
+            _values.Add(traceId);
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
+                .AsInsert(_columns, _values);
+        }
+        public static global::SqlKata.Query Insert_auth_UserRoleLogTrace(global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, global::System.Guid RoleId, int LogId, global::System.Guid TraceId)> rows)
+        {
+            var _columns = new string[] {
+                ""UserId"",
+                ""RoleId"",
+                ""LogId"",
+                ""TraceId""
+            };
+            var _values = rows.Select(_row => new object?[] {
+                _row.UserId,
+                _row.RoleId,
+                _row.LogId,
+                _row.TraceId
+            });
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
+                .AsInsert(_columns, _values);
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Where(""LogId"", logId)
+                .Where(""TraceId"", traceId)
                 .AsDelete();
         }
     }

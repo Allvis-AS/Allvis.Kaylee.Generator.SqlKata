@@ -40,6 +40,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             sb.WriteExists(entity);
             sb.WriteCount(entity);
+            sb.WriteCountGroupBy(entity);
             sb.WriteGet(entity);
             sb.WriteInsert(entity);
             sb.WriteInsertMany(entity);
@@ -83,43 +84,179 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
         private static void WriteCount(this SourceBuilder sb, Entity entity)
         {
+            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
-            var parameters = fullPrimaryKey.Select(fr =>
+
+            var fields = fullPrimaryKey.Take(fullPrimaryKey.Count - 1).Select(fr =>
             {
                 var field = fr.ResolvedField;
-                return (field.Type.ToCSharp(), field.Name.ToCamelCase());
+                return (field.Type.ToCSharp(), field.Name, field.Name.ToCamelCase());
             }).ToList();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct().ToList();
 
-            var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey);
-            var stackedParameters = new Stack<(string Type, string Name)>(parameters);
-            
-            var i = stackedParameters.Count;
+            var stackedGroupable = new Stack<(string Type, string Name, string NameCamel)>(fields);
+            var i = stackedGroupable.Count;
             while (i >= 0)
             {
-                sb.PublicStaticMethod("global::SqlKata.Query", $"Count_{entityName}", stackedParameters.Reverse(), sb =>
+                var stackedPivotable = new Stack<(string Type, string Name, string NameCamel)>(fields.Take(i));
+                var j = stackedPivotable.Count;
+                while (j >= 0)
                 {
-                    var viewName = entity.GetViewName();
-                    sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
-                    sb.I(sb =>
+                    if (j == 0)
                     {
-                        foreach (var field in stackedFullPrimaryKey.Reverse())
+                        var parameters = stackedGroupable.Select(p => (p.Type, p.NameCamel)).Reverse();
+                        var arguments = string.Join(", ", stackedGroupable.Reverse().Select(p => p.NameCamel));
+                        sb.PublicStaticMethod("global::SqlKata.Query", $"Count_{entityName}", parameters, sb =>
                         {
-                            var fieldName = field.FieldName;
-                            var parameterName = fieldName.ToCamelCase();
-                            sb.AL($@".Where(""{fieldName}"", {parameterName})");
-                        }
-                        sb.AL(".AsCount();");
-                    });
-                });
-                if (stackedParameters.Count > 0)
+                            var viewName = entity.GetViewName();
+                            sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
+                            sb.I(sb =>
+                            {
+                                foreach (var field in stackedGroupable.Reverse())
+                                {
+                                    var fieldName = field.Name;
+                                    var parameterName = field.NameCamel;
+                                    sb.AL($@".Where(""{fieldName}"", {parameterName})");
+                                }
+                                foreach (var field in stackedPivotable.Reverse())
+                                {
+                                    var fieldName = field.Name;
+                                    sb.AL($@".GroupBy(""{fieldName}"")");
+                                }
+                                foreach (var field in stackedPivotable.Reverse())
+                                {
+                                    var fieldName = field.Name;
+                                    sb.AL($@".Select(""{fieldName}"")");
+                                }
+                                sb.AL(".AsCount();");
+                            });
+                        });
+                    }
+                    else if (i > 0)
+                    {
+                        var parameters = stackedPivotable.Skip(1).Select(p => (p.Type, p.NameCamel)).Reverse();
+                        var groupByName = string.Join("_", stackedGroupable.Reverse().Select(p => p.Name));
+                        sb.PublicStaticMethod("global::SqlKata.Query", $"Count_{entityName}_GroupBy_{groupByName}", parameters, sb =>
+                        {
+                            var viewName = entity.GetViewName();
+                            sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
+                            sb.I(sb =>
+                            {
+                                foreach (var field in stackedPivotable.Skip(1).Reverse())
+                                {
+                                    var fieldName = field.Name;
+                                    var parameterName = field.NameCamel;
+                                    sb.AL($@".Where(""{fieldName}"", {parameterName})");
+                                }
+                                foreach (var field in stackedGroupable.Reverse())
+                                {
+                                    var fieldName = field.Name;
+                                    sb.AL($@".GroupBy(""{fieldName}"")");
+                                }
+                                foreach (var field in stackedGroupable.Reverse())
+                                {
+                                    var fieldName = field.Name;
+                                    sb.AL($@".Select(""{fieldName}"")");
+                                }
+                                sb.AL(@".SelectRaw(""COUNT(*) as Count"");");
+                            });
+                        });
+                    }
+                    if (stackedPivotable.Count > 0)
+                    {
+                        stackedPivotable.Pop();
+                    }
+                    j--;
+                }
+                if (stackedGroupable.Count > 0)
                 {
-                    stackedFullPrimaryKey.Pop();
-                    stackedParameters.Pop();
+                    stackedGroupable.Pop();
                 }
                 i--;
             }
+        }
+
+        // private static void WriteCount(this SourceBuilder sb, Entity entity)
+        // {
+        //     var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
+        //     var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
+        //     var parameters = fullPrimaryKey.Select(fr =>
+        //     {
+        //         var field = fr.ResolvedField;
+        //         return (field.Type.ToCSharp(), field.Name.ToCamelCase());
+        //     }).ToList();
+        //     var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct().ToList();
+
+        //     var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey.Take(fullPrimaryKey.Count - 1));
+        //     var stackedParameters = new Stack<(string Type, string Name)>(parameters.Take(parameters.Count - 1));
+
+        //     var i = stackedParameters.Count;
+        //     while (i >= 0)
+        //     {
+        //         sb.PublicStaticMethod("global::SqlKata.Query", $"Count_{entityName}", stackedParameters.Reverse(), sb =>
+        //         {
+        //             var viewName = entity.GetViewName();
+        //             sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
+        //             sb.I(sb =>
+        //             {
+        //                 foreach (var field in stackedFullPrimaryKey.Reverse())
+        //                 {
+        //                     var fieldName = field.FieldName;
+        //                     var parameterName = fieldName.ToCamelCase();
+        //                     sb.AL($@".Where(""{fieldName}"", {parameterName})");
+        //                 }
+        //                 sb.AL(".AsCount();");
+        //             });
+        //         });
+        //         if (stackedParameters.Count > 0)
+        //         {
+        //             stackedFullPrimaryKey.Pop();
+        //             stackedParameters.Pop();
+        //         }
+        //         i--;
+        //     }
+        // }
+
+        private static void WriteCountGroupBy(this SourceBuilder sb, Entity entity)
+        {
+            // var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
+            // var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
+            // var parameters = fullPrimaryKey.Select(fr =>
+            // {
+            //     var field = fr.ResolvedField;
+            //     return (field.Type.ToCSharp(), field.Name.ToCamelCase());
+            // }).ToList();
+            // var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct().ToList();
+
+            // var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey.Take(fullPrimaryKey.Count - 1));
+            // var stackedParameters = new Stack<(string Type, string Name)>(parameters.Take(parameters.Count - 1));
+
+
+            // var i = stackedParameters.Count;
+            // while (i >= 0)
+            // {
+            //     sb.PublicStaticMethod("global::SqlKata.Query", $"Count_{entityName}", stackedParameters.Reverse(), sb =>
+            //     {
+            //         var viewName = entity.GetViewName();
+            //         sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
+            //         sb.I(sb =>
+            //         {
+            //             foreach (var field in stackedFullPrimaryKey.Reverse())
+            //             {
+            //                 var fieldName = field.FieldName;
+            //                 var parameterName = fieldName.ToCamelCase();
+            //                 sb.AL($@".Where(""{fieldName}"", {parameterName})");
+            //             }
+            //             sb.AL(".AsCount();");
+            //         });
+            //     });
+            //     if (stackedParameters.Count > 0)
+            //     {
+            //         stackedFullPrimaryKey.Pop();
+            //         stackedParameters.Pop();
+            //     }
+            //     i--;
+            // }
         }
 
         private static void WriteGet(this SourceBuilder sb, Entity entity)
@@ -135,7 +272,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
             var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey);
             var stackedParameters = new Stack<(string Type, string Name)>(parameters);
-            
+
             var i = stackedParameters.Count;
             while (i >= 0)
             {
@@ -173,13 +310,12 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsOptional(Field field)
             {
-                var partOfParentKey = field.Entity != entity;
-                return !partOfParentKey && (field.HasDefault() || field.Nullable);
+                return !field.IsPartOfParentKey(entity) && (field.HasDefault() || field.Nullable);
             }
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK()).Concat(entity.Fields.Where(f => f.IsInsertable())).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK(entity)).Concat(entity.Fields.Where(f => f.IsInsertable(entity))).Distinct();
             var parameters = allFields.Select(f => (IsOptional(f), f.Type.ToCSharp(), f.Name.ToCamelCase()));
             sb.PublicStaticMethod("global::SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
             {
@@ -218,13 +354,12 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsNullable(Field field)
             {
-                var partOfParentKey = field.Entity != entity;
-                return !partOfParentKey && field.Nullable;
+                return !field.IsPartOfParentKey(entity) && field.Nullable;
             }
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK()).Concat(entity.Fields.Where(f => f.IsInsertable())).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK(entity)).Concat(entity.Fields.Where(f => f.IsInsertable(entity))).Distinct();
             var tupleParameters = allFields.Select(f =>
             {
                 var nullable = IsNullable(f);
@@ -295,8 +430,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         {
             bool IsNullable(Field field)
             {
-                var partOfParentKey = field.Entity != mutation.Entity;
-                return !partOfParentKey && field.Nullable;
+                return !field.IsPartOfParentKey(mutation.Entity) && field.Nullable;
             }
 
             var entityName = mutation.Entity.DisplayName.Replace(".", "").Replace("::", "_");

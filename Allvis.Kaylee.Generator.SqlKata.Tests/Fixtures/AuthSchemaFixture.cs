@@ -46,16 +46,26 @@ schema auth {
             mutations {
                 Flag(Flag);
             }
-        }
         
-        entity Log {
-            fields {
-                LogId INT AUTO INCREMENT;
-                Content TEXT(500);
-            }
+            entity Log {
+                fields {
+                    LogId INT AUTO INCREMENT;
+                    Content TEXT(500);
+                }
 
-            keys {
-                primary = LogId;
+                keys {
+                    primary = LogId;
+                }
+
+                entity Trace {
+                    fields {
+                        TraceId GUID;
+                    }
+
+                    keys {
+                        primary = TraceId;
+                    }
+                }
             }
         }
     }
