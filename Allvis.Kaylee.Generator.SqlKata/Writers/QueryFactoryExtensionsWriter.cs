@@ -14,6 +14,8 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         public static string Write(Ast ast)
         {
             var sb = new SourceBuilder();
+            sb.AL("#nullable enable");
+            sb.NL();
             sb.AL("using System.Linq;");
             sb.NL();
             sb.PublicStaticClass("Allvis.Kaylee.Generated.SqlKata.Extensions", "QueryFactoryExtensions", sb =>

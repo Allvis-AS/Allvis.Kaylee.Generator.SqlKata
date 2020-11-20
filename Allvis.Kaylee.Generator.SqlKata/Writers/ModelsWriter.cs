@@ -42,6 +42,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 return !partOfParentKey && field.Nullable;
             }
 
+            sb.AL("#nullable enable");
+            sb.NL();
+
             var schemaName = entity.Schema.Name;
             var ns = $"Allvis.Kaylee.Generated.SqlKata.Models.{schemaName}";
             var className = entity.GetModelName();

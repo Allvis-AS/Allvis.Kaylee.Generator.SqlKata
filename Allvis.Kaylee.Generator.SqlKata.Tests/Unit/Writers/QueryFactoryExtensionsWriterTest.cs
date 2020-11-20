@@ -21,7 +21,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             var source = QueryFactoryExtensionsWriter.Write(ast);
             // Assert
             await DebugUtils.WriteGeneratedFileToDisk("QueryFactoryExtensions.cs", source).ConfigureAwait(false);
-            Assert.Equal(@"using System.Linq;
+            Assert.Equal(@"#nullable enable
+
+using System.Linq;
 
 namespace Allvis.Kaylee.Generated.SqlKata.Extensions
 {

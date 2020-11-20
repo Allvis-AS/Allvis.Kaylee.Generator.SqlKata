@@ -29,7 +29,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             Assert.Collection(models, model =>
             {
                 Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.User", model.HintName);
-                Assert.Equal(@"namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
+                Assert.Equal(@"#nullable enable
+
+namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
 {
     public class User
     {
@@ -46,7 +48,9 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             }, model =>
             {
                 Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserRole", model.HintName);
-                Assert.Equal(@"namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
+                Assert.Equal(@"#nullable enable
+
+namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
 {
     public class UserRole
     {
