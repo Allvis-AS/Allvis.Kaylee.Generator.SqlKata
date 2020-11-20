@@ -142,7 +142,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             sb.PublicStaticMethod("global::SqlKata.Query", $"Insert_{entityName}", parameters, sb =>
             {
                 sb.AL("var _columns = new global::System.Collections.Generic.List<string>();");
-                sb.AL("var _values = new global::System.Collections.Generic.List<object>();");
+                sb.AL("var _values = new global::System.Collections.Generic.List<object?>();");
                 foreach (var field in allFields)
                 {
                     var fieldName = field.Name;
@@ -203,7 +203,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     });
                 });
                 sb.AL("};");
-                sb.AL("var _values = rows.Select(_row => new object[] {");
+                sb.AL("var _values = rows.Select(_row => new object?[] {");
                 sb.I(sb =>
                 {
                     allFields.ForEach((field, last) =>
@@ -279,7 +279,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     });
                 });
                 sb.AL("};");
-                sb.AL("var _values = new object[] {");
+                sb.AL("var _values = new object?[] {");
                 sb.I(sb =>
                 {
                     fields.ForEach((field, last) =>

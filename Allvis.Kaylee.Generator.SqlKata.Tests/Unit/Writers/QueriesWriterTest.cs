@@ -62,7 +62,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
         public static global::SqlKata.Query Insert_auth_User(global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture)
         {
             var _columns = new global::System.Collections.Generic.List<string>();
-            var _values = new global::System.Collections.Generic.List<object>();
+            var _values = new global::System.Collections.Generic.List<object?>();
             if (userId != null)
             {
                 _columns.Add(""UserId"");
@@ -100,7 +100,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 ""Hash"",
                 ""Picture""
             };
-            var _values = rows.Select(_row => new object[] {
+            var _values = rows.Select(_row => new object?[] {
                 _row.UserId,
                 _row.FirstName,
                 _row.LastName,
@@ -123,7 +123,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 ""FirstName"",
                 ""LastName""
             };
-            var _values = new object[] {
+            var _values = new object?[] {
                 firstName,
                 lastName
             };
@@ -136,7 +136,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
             var _columns = new string[] {
                 ""ContactEmail""
             };
-            var _values = new object[] {
+            var _values = new object?[] {
                 contactEmail
             };
             return new global::SqlKata.Query(""auth.tbl_User"")
@@ -178,7 +178,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
         public static global::SqlKata.Query Insert_auth_UserRole(global::System.Guid userId, global::System.Guid roleId, int? flag)
         {
             var _columns = new global::System.Collections.Generic.List<string>();
-            var _values = new global::System.Collections.Generic.List<object>();
+            var _values = new global::System.Collections.Generic.List<object?>();
             _columns.Add(""UserId"");
             _values.Add(userId);
             _columns.Add(""RoleId"");
@@ -198,7 +198,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 ""RoleId"",
                 ""Flag""
             };
-            var _values = rows.Select(_row => new object[] {
+            var _values = rows.Select(_row => new object?[] {
                 _row.UserId,
                 _row.RoleId,
                 _row.Flag
@@ -218,7 +218,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
             var _columns = new string[] {
                 ""Flag""
             };
-            var _values = new object[] {
+            var _values = new object?[] {
                 flag
             };
             return new global::SqlKata.Query(""auth.tbl_UserRole"")
