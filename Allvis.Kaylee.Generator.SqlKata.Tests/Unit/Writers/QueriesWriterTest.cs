@@ -36,6 +36,17 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .SelectRaw(""1"")
                 .Limit(1);
         }
+        public static global::SqlKata.Query Count_auth_User(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""UserId"", userId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_User()
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .AsCount();
+        }
         public static global::SqlKata.Query Get_auth_User(global::System.Guid userId)
         {
             return new global::SqlKata.Query(""auth.v_User"")
@@ -153,6 +164,24 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .SelectRaw(""1"")
                 .Limit(1);
         }
+        public static global::SqlKata.Query Count_auth_UserRole(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRole"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRole(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserRole"")
+                .Where(""UserId"", userId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserRole()
+        {
+            return new global::SqlKata.Query(""auth.v_UserRole"")
+                .AsCount();
+        }
         public static global::SqlKata.Query Get_auth_UserRole(global::System.Guid userId, global::System.Guid roleId)
         {
             return new global::SqlKata.Query(""auth.v_UserRole"")
@@ -235,6 +264,24 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""LogId"", logId)
                 .SelectRaw(""1"")
                 .Limit(1);
+        }
+        public static global::SqlKata.Query Count_auth_UserLog(global::System.Guid userId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .Where(""UserId"", userId)
+                .Where(""LogId"", logId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserLog(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .Where(""UserId"", userId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserLog()
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .AsCount();
         }
         public static global::SqlKata.Query Get_auth_UserLog(global::System.Guid userId, int logId)
         {

@@ -39,6 +39,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
         private static void Write(this SourceBuilder sb, Entity entity)
         {
             sb.WriteExists(entity);
+            sb.WriteCount(entity);
             sb.WriteGet(entity);
             sb.WriteInsert(entity);
             sb.WriteInsertMany(entity);
@@ -78,6 +79,47 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                     sb.AL(@".Limit(1);");
                 });
             });
+        }
+
+        private static void WriteCount(this SourceBuilder sb, Entity entity)
+        {
+            var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
+            var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
+            var parameters = fullPrimaryKey.Select(fr =>
+            {
+                var field = fr.ResolvedField;
+                return (field.Type.ToCSharp(), field.Name.ToCamelCase());
+            }).ToList();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct().ToList();
+
+            var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey);
+            var stackedParameters = new Stack<(string Type, string Name)>(parameters);
+            
+            var i = stackedParameters.Count;
+            while (i >= 0)
+            {
+                sb.PublicStaticMethod("global::SqlKata.Query", $"Count_{entityName}", stackedParameters.Reverse(), sb =>
+                {
+                    var viewName = entity.GetViewName();
+                    sb.AL($@"return new global::SqlKata.Query(""{viewName}"")");
+                    sb.I(sb =>
+                    {
+                        foreach (var field in stackedFullPrimaryKey.Reverse())
+                        {
+                            var fieldName = field.FieldName;
+                            var parameterName = fieldName.ToCamelCase();
+                            sb.AL($@".Where(""{fieldName}"", {parameterName})");
+                        }
+                        sb.AL(".AsCount();");
+                    });
+                });
+                if (stackedParameters.Count > 0)
+                {
+                    stackedFullPrimaryKey.Pop();
+                    stackedParameters.Pop();
+                }
+                i--;
+            }
         }
 
         private static void WriteGet(this SourceBuilder sb, Entity entity)
