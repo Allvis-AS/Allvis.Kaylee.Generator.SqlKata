@@ -42,6 +42,7 @@ namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
         public string NormalizedContactEmail { get; set; } = string.Empty;
         public byte[] Hash { get; set; } = global::System.Array.Empty<byte>();
         public byte[]? Picture { get; set; }
+        public byte[] ETag { get; set; } = global::System.Array.Empty<byte>();
     }
 }
 ", model.Source);
@@ -57,6 +58,21 @@ namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
         public global::System.Guid UserId { get; set; }
         public global::System.Guid RoleId { get; set; }
         public int Flag { get; set; }
+    }
+}
+", model.Source);
+            }, model =>
+            {
+                Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog", model.HintName);
+                Assert.Equal(@"#nullable enable
+
+namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
+{
+    public class UserLog
+    {
+        public global::System.Guid UserId { get; set; }
+        public int LogId { get; set; }
+        public string Content { get; set; } = string.Empty;
     }
 }
 ", model.Source);

@@ -95,6 +95,35 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_UserRole_Flag(userId, roleId, flag));
         }
+        public static async global::System.Threading.Tasks.Task<bool> Exists_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, int logId)
+        {
+            var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_UserLog(userId, logId)).ConfigureAwait(false);
+            return _rows.Any();
+        }
+        public static global::System.Threading.Tasks.Task<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog> Get_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, int logId)
+        {
+            return _db.FirstAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_UserLog(userId, logId));
+        }
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog>> Get_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        {
+            return _db.GetAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_UserLog(userId));
+        }
+        public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog>> Get_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db)
+        {
+            return _db.GetAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.UserLog>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_UserLog());
+        }
+        public static global::System.Threading.Tasks.Task<int> Insert_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, string content)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_auth_UserLog(userId, content));
+        }
+        public static global::System.Threading.Tasks.Task<int> Insert_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string Content)> rows)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_auth_UserLog(rows));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, int logId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserLog(userId, logId));
+        }
     }
 }
 ", source);

@@ -117,7 +117,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields.Where(f => !f.Computed)).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK()).Concat(entity.Fields.Where(f => f.IsInsertable())).Distinct();
             var parameters = allFields.Select(f => (Optional: IsOptional(f), Type: f.Type.ToCSharp(), Name: f.Name.ToCamelCase()));
             sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Insert_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
             {
@@ -136,7 +136,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields.Where(f => !f.Computed)).Distinct();
+            var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Where(f => f.IsInsertablePK()).Concat(entity.Fields.Where(f => f.IsInsertable())).Distinct();
             var tupleParameters = allFields.Select(f =>
             {
                 var nullable = IsNullable(f);

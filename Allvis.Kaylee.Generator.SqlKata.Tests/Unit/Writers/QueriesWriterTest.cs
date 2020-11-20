@@ -46,7 +46,8 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Select(""ContactEmail"")
                 .Select(""NormalizedContactEmail"")
                 .Select(""Hash"")
-                .Select(""Picture"");
+                .Select(""Picture"")
+                .Select(""ETag"");
         }
         public static global::SqlKata.Query Get_auth_User()
         {
@@ -57,7 +58,8 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Select(""ContactEmail"")
                 .Select(""NormalizedContactEmail"")
                 .Select(""Hash"")
-                .Select(""Picture"");
+                .Select(""Picture"")
+                .Select(""ETag"");
         }
         public static global::SqlKata.Query Insert_auth_User(global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture)
         {
@@ -225,6 +227,69 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""UserId"", userId)
                 .Where(""RoleId"", roleId)
                 .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Exists_auth_UserLog(global::System.Guid userId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .Where(""UserId"", userId)
+                .Where(""LogId"", logId)
+                .SelectRaw(""1"")
+                .Limit(1);
+        }
+        public static global::SqlKata.Query Get_auth_UserLog(global::System.Guid userId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .Where(""UserId"", userId)
+                .Where(""LogId"", logId)
+                .Select(""UserId"")
+                .Select(""LogId"")
+                .Select(""Content"");
+        }
+        public static global::SqlKata.Query Get_auth_UserLog(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .Where(""UserId"", userId)
+                .Select(""UserId"")
+                .Select(""LogId"")
+                .Select(""Content"");
+        }
+        public static global::SqlKata.Query Get_auth_UserLog()
+        {
+            return new global::SqlKata.Query(""auth.v_UserLog"")
+                .Select(""UserId"")
+                .Select(""LogId"")
+                .Select(""Content"");
+        }
+        public static global::SqlKata.Query Insert_auth_UserLog(global::System.Guid userId, string content)
+        {
+            var _columns = new global::System.Collections.Generic.List<string>();
+            var _values = new global::System.Collections.Generic.List<object?>();
+            _columns.Add(""UserId"");
+            _values.Add(userId);
+            _columns.Add(""Content"");
+            _values.Add(content);
+            return new global::SqlKata.Query(""auth.tbl_UserLog"")
+                .AsInsert(_columns, _values);
+        }
+        public static global::SqlKata.Query Insert_auth_UserLog(global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string Content)> rows)
+        {
+            var _columns = new string[] {
+                ""UserId"",
+                ""Content""
+            };
+            var _values = rows.Select(_row => new object?[] {
+                _row.UserId,
+                _row.Content
+            });
+            return new global::SqlKata.Query(""auth.tbl_UserLog"")
+                .AsInsert(_columns, _values);
+        }
+        public static global::SqlKata.Query Delete_auth_UserLog(global::System.Guid userId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserLog"")
+                .Where(""UserId"", userId)
+                .Where(""LogId"", logId)
+                .AsDelete();
         }
     }
 }

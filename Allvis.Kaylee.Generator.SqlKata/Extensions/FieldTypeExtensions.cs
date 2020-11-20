@@ -16,7 +16,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
                 FieldType.TEXT => "string",
                 FieldType.GUID => "global::System.Guid",
                 FieldType.DATE => "global::System.DateTimeOffset",
-                FieldType.ROWVERSION => "string",
+                FieldType.ROWVERSION => "byte[]",
                 FieldType.VARBINARY => "byte[]",
                 FieldType.BINARY => "byte[]",
                 _ => throw new ArgumentOutOfRangeException(nameof(fieldType))
@@ -34,9 +34,27 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
                 FieldType.TEXT => "string.Empty",
                 FieldType.GUID => "",
                 FieldType.DATE => "",
-                FieldType.ROWVERSION => "string.Empty",
+                FieldType.ROWVERSION => "global::System.Array.Empty<byte>()",
                 FieldType.VARBINARY => "global::System.Array.Empty<byte>()",
                 FieldType.BINARY => "global::System.Array.Empty<byte>()",
+                _ => throw new ArgumentOutOfRangeException(nameof(fieldType))
+            };
+        }
+
+        public static bool IsInsertable(this FieldType fieldType)
+        {
+            return fieldType switch
+            {
+                FieldType.BIT => true,
+                FieldType.TINYINT => true,
+                FieldType.INT => true,
+                FieldType.CHAR => true,
+                FieldType.TEXT => true,
+                FieldType.GUID => true,
+                FieldType.DATE => true,
+                FieldType.ROWVERSION => false,
+                FieldType.VARBINARY => true,
+                FieldType.BINARY => true,
                 _ => throw new ArgumentOutOfRangeException(nameof(fieldType))
             };
         }

@@ -19,6 +19,7 @@ schema auth {
             }
             Hash BINARY(128);
             Picture? VARBINARY(MAX);
+            ETag ROWVERSION;
         }
 
         keys {
@@ -44,6 +45,17 @@ schema auth {
 
             mutations {
                 Flag(Flag);
+            }
+        }
+        
+        entity Log {
+            fields {
+                LogId INT AUTO INCREMENT;
+                Content TEXT(500);
+            }
+
+            keys {
+                primary = LogId;
             }
         }
     }
