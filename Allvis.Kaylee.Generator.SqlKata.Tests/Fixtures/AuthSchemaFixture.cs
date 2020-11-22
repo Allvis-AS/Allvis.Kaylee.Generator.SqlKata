@@ -33,6 +33,17 @@ schema auth {
             ContactInformation(ContactEmail);
         }
 
+        query Task {
+            fields {
+                TaskId INT;
+                Todo TEXT(100);
+            }
+
+            keys {
+                primary = TaskId;
+            }
+        }
+
         entity Role {
             fields {
                 RoleId GUID;

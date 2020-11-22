@@ -50,6 +50,21 @@ namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
 ", model.Source);
             }, model =>
             {
+                Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserTask", model.HintName);
+                Assert.Equal(@"#nullable enable
+
+namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
+{
+    public class UserTask
+    {
+        public global::System.Guid UserId { get; set; }
+        public int TaskId { get; set; }
+        public string Todo { get; set; } = string.Empty;
+    }
+}
+", model.Source);
+            }, model =>
+            {
                 Assert.Equal("Allvis.Kaylee.Generated.SqlKata.Models.auth.UserRole", model.HintName);
                 Assert.Equal(@"#nullable enable
 

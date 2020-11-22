@@ -41,12 +41,15 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             sb.WriteExists(entity);
             sb.WriteCount(entity);
             sb.WriteGet(entity);
-            sb.WriteInsert(entity);
-            sb.WriteInsertMany(entity);
-            sb.WriteDelete(entity);
-            foreach (var mutation in entity.Mutations)
+            if (!entity.IsQuery)
             {
-                sb.WriteUpdate(mutation);
+                sb.WriteInsert(entity);
+                sb.WriteInsertMany(entity);
+                sb.WriteDelete(entity);
+                foreach (var mutation in entity.Mutations)
+                {
+                    sb.WriteUpdate(mutation);
+                }
             }
             foreach (var child in entity.Children)
             {

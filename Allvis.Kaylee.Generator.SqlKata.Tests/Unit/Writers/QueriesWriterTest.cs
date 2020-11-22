@@ -162,6 +162,56 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""UserId"", userId)
                 .AsUpdate(_columns, _values);
         }
+        public static global::SqlKata.Query Exists_auth_UserTask(global::System.Guid userId, int taskId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .Where(""UserId"", userId)
+                .Where(""TaskId"", taskId)
+                .SelectRaw(""1"")
+                .Limit(1);
+        }
+        public static global::SqlKata.Query Count_auth_UserTask_GroupBy_UserId()
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .GroupBy(""UserId"")
+                .Select(""UserId"")
+                .SelectRaw(""COUNT(*) as Count"");
+        }
+        public static global::SqlKata.Query Count_auth_UserTask(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .Where(""UserId"", userId)
+                .AsCount();
+        }
+        public static global::SqlKata.Query Count_auth_UserTask()
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .AsCount();
+        }
+        public static global::SqlKata.Query Get_auth_UserTask(global::System.Guid userId, int taskId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .Where(""UserId"", userId)
+                .Where(""TaskId"", taskId)
+                .Select(""UserId"")
+                .Select(""TaskId"")
+                .Select(""Todo"");
+        }
+        public static global::SqlKata.Query Get_auth_UserTask(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .Where(""UserId"", userId)
+                .Select(""UserId"")
+                .Select(""TaskId"")
+                .Select(""Todo"");
+        }
+        public static global::SqlKata.Query Get_auth_UserTask()
+        {
+            return new global::SqlKata.Query(""auth.v_UserTask"")
+                .Select(""UserId"")
+                .Select(""TaskId"")
+                .Select(""Todo"");
+        }
         public static global::SqlKata.Query Exists_auth_UserRole(global::System.Guid userId, global::System.Guid roleId)
         {
             return new global::SqlKata.Query(""auth.v_UserRole"")
