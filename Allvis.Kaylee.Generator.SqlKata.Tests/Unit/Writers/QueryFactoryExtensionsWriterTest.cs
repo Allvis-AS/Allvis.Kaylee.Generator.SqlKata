@@ -46,11 +46,11 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.GetAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_User());
         }
-        public static global::System.Threading.Tasks.Task<int> Insert_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture)
+        public static global::System.Threading.Tasks.Task<int> Insert_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture, long rAM4, decimal price)
         {
-            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_auth_User(userId, firstName, lastName, contactEmail, hash, picture));
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_auth_User(userId, firstName, lastName, contactEmail, hash, picture, rAM4, price));
         }
-        public static global::System.Threading.Tasks.Task<int> Insert_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string? FirstName, string? LastName, string ContactEmail, byte[] Hash, byte[]? Picture)> rows)
+        public static global::System.Threading.Tasks.Task<int> Insert_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string? FirstName, string? LastName, string ContactEmail, byte[] Hash, byte[]? Picture, long RAM4, decimal Price)> rows)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Insert_auth_User(rows));
         }

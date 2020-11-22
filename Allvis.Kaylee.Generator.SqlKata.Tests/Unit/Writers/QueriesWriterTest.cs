@@ -52,7 +52,9 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Select(""NormalizedContactEmail"")
                 .Select(""Hash"")
                 .Select(""Picture"")
-                .Select(""ETag"");
+                .Select(""ETag"")
+                .Select(""RAM4"")
+                .Select(""Price"");
         }
         public static global::SqlKata.Query Get_auth_User()
         {
@@ -64,9 +66,11 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Select(""NormalizedContactEmail"")
                 .Select(""Hash"")
                 .Select(""Picture"")
-                .Select(""ETag"");
+                .Select(""ETag"")
+                .Select(""RAM4"")
+                .Select(""Price"");
         }
-        public static global::SqlKata.Query Insert_auth_User(global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture)
+        public static global::SqlKata.Query Insert_auth_User(global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture, long rAM4, decimal price)
         {
             var _columns = new global::System.Collections.Generic.List<string>();
             var _values = new global::System.Collections.Generic.List<object?>();
@@ -94,10 +98,14 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 _columns.Add(""Picture"");
                 _values.Add(picture);
             }
+            _columns.Add(""RAM4"");
+            _values.Add(rAM4);
+            _columns.Add(""Price"");
+            _values.Add(price);
             return new global::SqlKata.Query(""auth.tbl_User"")
                 .AsInsert(_columns, _values);
         }
-        public static global::SqlKata.Query Insert_auth_User(global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string? FirstName, string? LastName, string ContactEmail, byte[] Hash, byte[]? Picture)> rows)
+        public static global::SqlKata.Query Insert_auth_User(global::System.Collections.Generic.IEnumerable<(global::System.Guid UserId, string? FirstName, string? LastName, string ContactEmail, byte[] Hash, byte[]? Picture, long RAM4, decimal Price)> rows)
         {
             var _columns = new string[] {
                 ""UserId"",
@@ -105,7 +113,9 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 ""LastName"",
                 ""ContactEmail"",
                 ""Hash"",
-                ""Picture""
+                ""Picture"",
+                ""RAM4"",
+                ""Price""
             };
             var _values = rows.Select(_row => new object?[] {
                 _row.UserId,
@@ -113,7 +123,9 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 _row.LastName,
                 _row.ContactEmail,
                 _row.Hash,
-                _row.Picture
+                _row.Picture,
+                _row.RAM4,
+                _row.Price
             });
             return new global::SqlKata.Query(""auth.tbl_User"")
                 .AsInsert(_columns, _values);

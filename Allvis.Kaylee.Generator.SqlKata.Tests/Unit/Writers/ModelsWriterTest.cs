@@ -43,6 +43,8 @@ namespace Allvis.Kaylee.Generated.SqlKata.Models.auth
         public byte[] Hash { get; set; } = global::System.Array.Empty<byte>();
         public byte[]? Picture { get; set; }
         public byte[] ETag { get; set; } = global::System.Array.Empty<byte>();
+        public long RAM4 { get; set; }
+        public decimal Price { get; set; }
     }
 }
 ", model.Source);

@@ -20,6 +20,8 @@ schema auth {
             Hash BINARY(128);
             Picture? VARBINARY(MAX);
             ETag ROWVERSION;
+            RAM4 BIGINT;
+            Price DECIMAL(19, 4);
         }
 
         keys {
