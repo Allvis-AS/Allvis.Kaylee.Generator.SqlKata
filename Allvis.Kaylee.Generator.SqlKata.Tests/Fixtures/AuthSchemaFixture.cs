@@ -26,6 +26,10 @@ schema auth {
 
         keys {
             primary = UserId;
+
+            unique(ContactEmail);
+            unique(NormalizedContactEmail);
+            unique(Hash, RAM4);
         }
 
         mutations {

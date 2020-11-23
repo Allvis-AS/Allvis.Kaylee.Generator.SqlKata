@@ -36,6 +36,28 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .SelectRaw(""1"")
                 .Limit(1);
         }
+        public static global::SqlKata.Query Exists_auth_User_UK_ContactEmail(string contactEmail)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""ContactEmail"", contactEmail)
+                .SelectRaw(""1"")
+                .Limit(1);
+        }
+        public static global::SqlKata.Query Exists_auth_User_UK_NormalizedContactEmail(string normalizedContactEmail)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""NormalizedContactEmail"", normalizedContactEmail)
+                .SelectRaw(""1"")
+                .Limit(1);
+        }
+        public static global::SqlKata.Query Exists_auth_User_UK_Hash_RAM4(byte[] hash, long rAM4)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""Hash"", hash)
+                .Where(""RAM4"", rAM4)
+                .SelectRaw(""1"")
+                .Limit(1);
+        }
         public static global::SqlKata.Query Count_auth_User()
         {
             return new global::SqlKata.Query(""auth.v_User"")
@@ -59,6 +81,52 @@ namespace Allvis.Kaylee.Generated.SqlKata
         public static global::SqlKata.Query Get_auth_User()
         {
             return new global::SqlKata.Query(""auth.v_User"")
+                .Select(""UserId"")
+                .Select(""FirstName"")
+                .Select(""LastName"")
+                .Select(""ContactEmail"")
+                .Select(""NormalizedContactEmail"")
+                .Select(""Hash"")
+                .Select(""Picture"")
+                .Select(""ETag"")
+                .Select(""RAM4"")
+                .Select(""Price"");
+        }
+        public static global::SqlKata.Query Get_auth_User_UK_ContactEmail(string contactEmail)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""ContactEmail"", contactEmail)
+                .Select(""UserId"")
+                .Select(""FirstName"")
+                .Select(""LastName"")
+                .Select(""ContactEmail"")
+                .Select(""NormalizedContactEmail"")
+                .Select(""Hash"")
+                .Select(""Picture"")
+                .Select(""ETag"")
+                .Select(""RAM4"")
+                .Select(""Price"");
+        }
+        public static global::SqlKata.Query Get_auth_User_UK_NormalizedContactEmail(string normalizedContactEmail)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""NormalizedContactEmail"", normalizedContactEmail)
+                .Select(""UserId"")
+                .Select(""FirstName"")
+                .Select(""LastName"")
+                .Select(""ContactEmail"")
+                .Select(""NormalizedContactEmail"")
+                .Select(""Hash"")
+                .Select(""Picture"")
+                .Select(""ETag"")
+                .Select(""RAM4"")
+                .Select(""Price"");
+        }
+        public static global::SqlKata.Query Get_auth_User_UK_Hash_RAM4(byte[] hash, long rAM4)
+        {
+            return new global::SqlKata.Query(""auth.v_User"")
+                .Where(""Hash"", hash)
+                .Where(""RAM4"", rAM4)
                 .Select(""UserId"")
                 .Select(""FirstName"")
                 .Select(""LastName"")
@@ -136,7 +204,26 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""UserId"", userId)
                 .AsDelete();
         }
-        public static global::SqlKata.Query Update_auth_User_FullName(global::System.Guid userId, string? firstName, string? lastName)
+        public static global::SqlKata.Query Delete_auth_User_UK_ContactEmail(string contactEmail)
+        {
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""ContactEmail"", contactEmail)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_User_UK_NormalizedContactEmail(string normalizedContactEmail)
+        {
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""NormalizedContactEmail"", normalizedContactEmail)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_User_UK_Hash_RAM4(byte[] hash, long rAM4)
+        {
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""Hash"", hash)
+                .Where(""RAM4"", rAM4)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Update_auth_User_FullName(global::System.Guid k_UserId, string? firstName, string? lastName)
         {
             var _columns = new string[] {
                 ""FirstName"",
@@ -147,10 +234,53 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 lastName
             };
             return new global::SqlKata.Query(""auth.tbl_User"")
-                .Where(""UserId"", userId)
+                .Where(""UserId"", k_UserId)
                 .AsUpdate(_columns, _values);
         }
-        public static global::SqlKata.Query Update_auth_User_ContactInformation(global::System.Guid userId, string contactEmail)
+        public static global::SqlKata.Query Update_auth_User_FullName_UK_ContactEmail(string k_ContactEmail, string? firstName, string? lastName)
+        {
+            var _columns = new string[] {
+                ""FirstName"",
+                ""LastName""
+            };
+            var _values = new object?[] {
+                firstName,
+                lastName
+            };
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""ContactEmail"", k_ContactEmail)
+                .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Update_auth_User_FullName_UK_NormalizedContactEmail(string k_NormalizedContactEmail, string? firstName, string? lastName)
+        {
+            var _columns = new string[] {
+                ""FirstName"",
+                ""LastName""
+            };
+            var _values = new object?[] {
+                firstName,
+                lastName
+            };
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""NormalizedContactEmail"", k_NormalizedContactEmail)
+                .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Update_auth_User_FullName_UK_Hash_RAM4(byte[] k_Hash, long k_RAM4, string? firstName, string? lastName)
+        {
+            var _columns = new string[] {
+                ""FirstName"",
+                ""LastName""
+            };
+            var _values = new object?[] {
+                firstName,
+                lastName
+            };
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""Hash"", k_Hash)
+                .Where(""RAM4"", k_RAM4)
+                .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Update_auth_User_ContactInformation(global::System.Guid k_UserId, string contactEmail)
         {
             var _columns = new string[] {
                 ""ContactEmail""
@@ -159,7 +289,44 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 contactEmail
             };
             return new global::SqlKata.Query(""auth.tbl_User"")
-                .Where(""UserId"", userId)
+                .Where(""UserId"", k_UserId)
+                .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Update_auth_User_ContactInformation_UK_ContactEmail(string k_ContactEmail, string contactEmail)
+        {
+            var _columns = new string[] {
+                ""ContactEmail""
+            };
+            var _values = new object?[] {
+                contactEmail
+            };
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""ContactEmail"", k_ContactEmail)
+                .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Update_auth_User_ContactInformation_UK_NormalizedContactEmail(string k_NormalizedContactEmail, string contactEmail)
+        {
+            var _columns = new string[] {
+                ""ContactEmail""
+            };
+            var _values = new object?[] {
+                contactEmail
+            };
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""NormalizedContactEmail"", k_NormalizedContactEmail)
+                .AsUpdate(_columns, _values);
+        }
+        public static global::SqlKata.Query Update_auth_User_ContactInformation_UK_Hash_RAM4(byte[] k_Hash, long k_RAM4, string contactEmail)
+        {
+            var _columns = new string[] {
+                ""ContactEmail""
+            };
+            var _values = new object?[] {
+                contactEmail
+            };
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .Where(""Hash"", k_Hash)
+                .Where(""RAM4"", k_RAM4)
                 .AsUpdate(_columns, _values);
         }
         public static global::SqlKata.Query Exists_auth_UserTask(global::System.Guid userId, int taskId)
@@ -300,7 +467,7 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""RoleId"", roleId)
                 .AsDelete();
         }
-        public static global::SqlKata.Query Update_auth_UserRole_Flag(global::System.Guid userId, global::System.Guid roleId, int flag)
+        public static global::SqlKata.Query Update_auth_UserRole_Flag(global::System.Guid k_UserId, global::System.Guid k_RoleId, int flag)
         {
             var _columns = new string[] {
                 ""Flag""
@@ -309,8 +476,8 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 flag
             };
             return new global::SqlKata.Query(""auth.tbl_UserRole"")
-                .Where(""UserId"", userId)
-                .Where(""RoleId"", roleId)
+                .Where(""UserId"", k_UserId)
+                .Where(""RoleId"", k_RoleId)
                 .AsUpdate(_columns, _values);
         }
         public static global::SqlKata.Query Exists_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId, int logId)

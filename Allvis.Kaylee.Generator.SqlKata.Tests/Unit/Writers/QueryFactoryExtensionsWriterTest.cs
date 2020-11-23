@@ -34,6 +34,21 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
             var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_User(userId)).ConfigureAwait(false);
             return _rows.Any();
         }
+        public static async global::System.Threading.Tasks.Task<bool> Exists_auth_User_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string contactEmail)
+        {
+            var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_User_UK_ContactEmail(contactEmail)).ConfigureAwait(false);
+            return _rows.Any();
+        }
+        public static async global::System.Threading.Tasks.Task<bool> Exists_auth_User_UK_NormalizedContactEmail(this global::SqlKata.Execution.QueryFactory _db, string normalizedContactEmail)
+        {
+            var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_User_UK_NormalizedContactEmail(normalizedContactEmail)).ConfigureAwait(false);
+            return _rows.Any();
+        }
+        public static async global::System.Threading.Tasks.Task<bool> Exists_auth_User_UK_Hash_RAM4(this global::SqlKata.Execution.QueryFactory _db, byte[] hash, long rAM4)
+        {
+            var _rows = await _db.GetAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Exists_auth_User_UK_Hash_RAM4(hash, rAM4)).ConfigureAwait(false);
+            return _rows.Any();
+        }
         public static global::System.Threading.Tasks.Task<int> Count_auth_User(this global::SqlKata.Execution.QueryFactory _db)
         {
             return _db.ExecuteScalarAsync<int>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Count_auth_User());
@@ -45,6 +60,18 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         public static global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User>> Get_auth_User(this global::SqlKata.Execution.QueryFactory _db)
         {
             return _db.GetAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_User());
+        }
+        public static global::System.Threading.Tasks.Task<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User> Get_auth_User_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string contactEmail)
+        {
+            return _db.FirstAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_User_UK_ContactEmail(contactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User> Get_auth_User_UK_NormalizedContactEmail(this global::SqlKata.Execution.QueryFactory _db, string normalizedContactEmail)
+        {
+            return _db.FirstAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_User_UK_NormalizedContactEmail(normalizedContactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User> Get_auth_User_UK_Hash_RAM4(this global::SqlKata.Execution.QueryFactory _db, byte[] hash, long rAM4)
+        {
+            return _db.FirstAsync<global::Allvis.Kaylee.Generated.SqlKata.Models.auth.User>(global::Allvis.Kaylee.Generated.SqlKata.Queries.Get_auth_User_UK_Hash_RAM4(hash, rAM4));
         }
         public static global::System.Threading.Tasks.Task<int> Insert_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid? userId, string? firstName, string? lastName, string contactEmail, byte[] hash, byte[]? picture, long rAM4, decimal price)
         {
@@ -58,13 +85,49 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User(userId));
         }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_User_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string contactEmail)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User_UK_ContactEmail(contactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_User_UK_NormalizedContactEmail(this global::SqlKata.Execution.QueryFactory _db, string normalizedContactEmail)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User_UK_NormalizedContactEmail(normalizedContactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_User_UK_Hash_RAM4(this global::SqlKata.Execution.QueryFactory _db, byte[] hash, long rAM4)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User_UK_Hash_RAM4(hash, rAM4));
+        }
         public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, string? firstName, string? lastName)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName(userId, firstName, lastName));
         }
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string k_ContactEmail, string? firstName, string? lastName)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName_UK_ContactEmail(k_ContactEmail, firstName, lastName));
+        }
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName_UK_NormalizedContactEmail(this global::SqlKata.Execution.QueryFactory _db, string k_NormalizedContactEmail, string? firstName, string? lastName)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName_UK_NormalizedContactEmail(k_NormalizedContactEmail, firstName, lastName));
+        }
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName_UK_Hash_RAM4(this global::SqlKata.Execution.QueryFactory _db, byte[] k_Hash, long k_RAM4, string? firstName, string? lastName)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName_UK_Hash_RAM4(k_Hash, k_RAM4, firstName, lastName));
+        }
         public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, string contactEmail)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_ContactInformation(userId, contactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string k_ContactEmail, string contactEmail)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_ContactInformation_UK_ContactEmail(k_ContactEmail, contactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation_UK_NormalizedContactEmail(this global::SqlKata.Execution.QueryFactory _db, string k_NormalizedContactEmail, string contactEmail)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_ContactInformation_UK_NormalizedContactEmail(k_NormalizedContactEmail, contactEmail));
+        }
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation_UK_Hash_RAM4(this global::SqlKata.Execution.QueryFactory _db, byte[] k_Hash, long k_RAM4, string contactEmail)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_ContactInformation_UK_Hash_RAM4(k_Hash, k_RAM4, contactEmail));
         }
         public static async global::System.Threading.Tasks.Task<bool> Exists_auth_UserTask(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, int taskId)
         {
