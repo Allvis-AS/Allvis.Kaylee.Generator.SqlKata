@@ -18,7 +18,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             sb.NL();
             sb.AL("using System.Linq;");
             sb.NL();
-            sb.PublicStaticClass("Allvis.Kaylee.Generated.SqlKata.Extensions", "QueryFactoryExtensions", sb =>
+            sb.PublicStaticClass("Allvis.Kaylee.Generated.SqlKata", "Extensions", sb =>
             {
                 foreach (var schema in ast.Schemata)
                 {

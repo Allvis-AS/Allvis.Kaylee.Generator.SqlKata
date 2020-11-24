@@ -20,14 +20,14 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
             // Act
             var source = QueryFactoryExtensionsWriter.Write(ast);
             // Assert
-            await DebugUtils.WriteGeneratedFileToDisk("QueryFactoryExtensions.cs", source).ConfigureAwait(false);
+            await DebugUtils.WriteGeneratedFileToDisk("Extensions.cs", source).ConfigureAwait(false);
             Assert.Equal(@"#nullable enable
 
 using System.Linq;
 
-namespace Allvis.Kaylee.Generated.SqlKata.Extensions
+namespace Allvis.Kaylee.Generated.SqlKata
 {
-    public static class QueryFactoryExtensions
+    public static class Extensions
     {
         public static async global::System.Threading.Tasks.Task<bool> Exists_auth_User(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
         {
