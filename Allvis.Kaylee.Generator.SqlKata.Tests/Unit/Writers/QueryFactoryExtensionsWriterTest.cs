@@ -85,6 +85,10 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User(userId));
         }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_User(this global::SqlKata.Execution.QueryFactory _db)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User());
+        }
         public static global::System.Threading.Tasks.Task<int> Delete_auth_User_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string contactEmail)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User_UK_ContactEmail(contactEmail));
@@ -199,6 +203,14 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRole(userId, roleId));
         }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRole(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRole(userId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRole(this global::SqlKata.Execution.QueryFactory _db)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRole());
+        }
         public static global::System.Threading.Tasks.Task<int> Update_auth_UserRole_Flag(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid k_UserId, global::System.Guid k_RoleId, int flag)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_UserRole_Flag(k_UserId, k_RoleId, flag));
@@ -259,6 +271,18 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int logId)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLog(userId, roleId, logId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLog(userId, roleId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLog(userId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLog());
         }
         public static async global::System.Threading.Tasks.Task<bool> Exists_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
         {
@@ -336,6 +360,22 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLogTrace(userId, roleId, logId, traceId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int logId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLogTrace(userId, roleId, logId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLogTrace(userId, roleId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLogTrace(userId));
+        }
+        public static global::System.Threading.Tasks.Task<int> Delete_auth_UserRoleLogTrace(this global::SqlKata.Execution.QueryFactory _db)
+        {
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRoleLogTrace());
         }
     }
 }

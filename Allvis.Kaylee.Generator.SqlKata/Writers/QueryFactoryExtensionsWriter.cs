@@ -163,7 +163,6 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 return (field.Type.ToCSharp(), field.Name.ToCamelCase());
             }).ToList();
 
-            var stackedFullPrimaryKey = new Stack<FieldReference>(fullPrimaryKey);
             var stackedParameters = new Stack<(string Type, string Name)>(parameters);
 
             var i = stackedParameters.Count;
@@ -181,7 +180,6 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
                 });
                 if (stackedParameters.Count > 0)
                 {
-                    stackedFullPrimaryKey.Pop();
                     stackedParameters.Pop();
                 }
                 i--;
@@ -260,12 +258,24 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             {
                 var field = fr.ResolvedField;
                 return (Type: field.Type.ToCSharp(), Name: field.Name.ToCamelCase());
-            });
-            sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Delete_{entityName}", parameters.PrefixWithQueryFactory(), sb =>
+            }).ToList();
+
+            var stackedParameters = new Stack<(string Type, string Name)>(parameters);
+
+            var i = stackedParameters.Count;
+            while (i >= 0)
             {
-                var arguments = string.Join(", ", parameters.Select(p => p.Name));
-                sb.AL($"return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_{entityName}({arguments}));");
-            });
+                sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Delete_{entityName}", stackedParameters.Reverse().PrefixWithQueryFactory(), sb =>
+                {
+                    var arguments = string.Join(", ", stackedParameters.Reverse().Select(p => p.Name));
+                    sb.AL($"return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_{entityName}({arguments}));");
+                });
+                if (stackedParameters.Count > 0)
+                {
+                    stackedParameters.Pop();
+                }
+                i--;
+            }
         }
 
         private static void WriteDeleteUniqueKey(this SourceBuilder sb, Entity entity)

@@ -204,6 +204,11 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""UserId"", userId)
                 .AsDelete();
         }
+        public static global::SqlKata.Query Delete_auth_User()
+        {
+            return new global::SqlKata.Query(""auth.tbl_User"")
+                .AsDelete();
+        }
         public static global::SqlKata.Query Delete_auth_User_UK_ContactEmail(string contactEmail)
         {
             return new global::SqlKata.Query(""auth.tbl_User"")
@@ -467,6 +472,17 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""RoleId"", roleId)
                 .AsDelete();
         }
+        public static global::SqlKata.Query Delete_auth_UserRole(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRole"")
+                .Where(""UserId"", userId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRole()
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRole"")
+                .AsDelete();
+        }
         public static global::SqlKata.Query Update_auth_UserRole_Flag(global::System.Guid k_UserId, global::System.Guid k_RoleId, int flag)
         {
             var _columns = new string[] {
@@ -605,6 +621,24 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""UserId"", userId)
                 .Where(""RoleId"", roleId)
                 .Where(""LogId"", logId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLog(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLog"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLog(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLog"")
+                .Where(""UserId"", userId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLog()
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLog"")
                 .AsDelete();
         }
         public static global::SqlKata.Query Exists_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId, global::System.Guid traceId)
@@ -794,6 +828,32 @@ namespace Allvis.Kaylee.Generated.SqlKata
                 .Where(""RoleId"", roleId)
                 .Where(""LogId"", logId)
                 .Where(""TraceId"", traceId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId, int logId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .Where(""LogId"", logId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLogTrace(global::System.Guid userId, global::System.Guid roleId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .Where(""RoleId"", roleId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLogTrace(global::System.Guid userId)
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
+                .Where(""UserId"", userId)
+                .AsDelete();
+        }
+        public static global::SqlKata.Query Delete_auth_UserRoleLogTrace()
+        {
+            return new global::SqlKata.Query(""auth.tbl_UserRoleLogTrace"")
                 .AsDelete();
         }
     }
