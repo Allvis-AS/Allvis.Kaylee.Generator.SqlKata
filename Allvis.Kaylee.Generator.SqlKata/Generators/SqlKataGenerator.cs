@@ -81,12 +81,9 @@ namespace Allvis.Kaylee.Generator.SqlKata
 
         private void AddModels(GeneratorExecutionContext context, Ast ast)
         {
-            var models = ModelsWriter.Write(ast);
-            foreach (var model in models)
-            {
-                var source = SourceText.From(model.Source, Encoding.UTF8);
-                context.AddSource(model.HintName, source);
-            }
+            var entities = EntitiesWriter.Write(ast);
+            var source = SourceText.From(entities, Encoding.UTF8);
+            context.AddSource("Allvis.Kaylee.Generated.SqlKata.Entities", source);
         }
 
         private void AddQueries(GeneratorExecutionContext context, Ast ast)

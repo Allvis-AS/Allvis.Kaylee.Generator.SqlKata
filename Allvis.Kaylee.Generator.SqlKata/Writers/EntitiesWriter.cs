@@ -8,46 +8,49 @@ using System.Linq;
 
 namespace Allvis.Kaylee.Generator.SqlKata.Writers
 {
-    public static class ModelsWriter
+    public static class EntitiesWriter
     {
-        public static IEnumerable<(string HintName, string Source)> Write(Ast ast)
-            => ast.Schemata.SelectMany(schema => schema.Write());
+        public static string Write(Ast ast)
+            => ast.Schemata.Write();
 
-        private static IEnumerable<(string HintName, string Source)> Write(this Schema schema)
-            => schema.Entities.SelectMany(entity => entity.Write());
-
-        private static IEnumerable<(string HintName, string Source)> Write(this Entity entity)
+        private static string Write(this IEnumerable<Schema> schemata)
         {
             var sb = new SourceBuilder();
-            var schemaName = entity.Schema.Name;
-            var modelName = entity.GetModelName();
-            var hintName = $"Allvis.Kaylee.Generated.SqlKata.Models.{schemaName}.{modelName}";
-            sb.WriteModel(entity);
-            var source = sb.ToString();
-            yield return (hintName, source);
+            sb.AL("#nullable enable");
+            sb.NL();
+            sb.PublicStaticClass("Allvis.Kaylee.Generated.SqlKata", "Entities", sb =>
+            {
+                foreach (var schema in schemata)
+                {
+                    sb.PublicStaticClass(schema.Name, sb =>
+                    {
+                        foreach (var entity in schema.Entities)
+                        {
+                            sb.Write(entity);
+                        }
+                    });
+                }
+            });
+            return sb.ToString();
+        }
+
+        private static void Write(this SourceBuilder sb, Entity entity)
+        {
+            sb.WriteEntity(entity);
             foreach (var child in entity.Children)
             {
-                foreach (var tuple in child.Write())
-                {
-                    yield return tuple;
-                }
+                sb.Write(child);
             }
         }
 
-        private static void WriteModel(this SourceBuilder sb, Entity entity)
+        private static void WriteEntity(this SourceBuilder sb, Entity entity)
         {
             bool IsNullable(Field field)
             {
                 return !field.IsPartOfParentKey(entity) && field.Nullable;
             }
-
-            sb.AL("#nullable enable");
-            sb.NL();
-
-            var schemaName = entity.Schema.Name;
-            var ns = $"Allvis.Kaylee.Generated.SqlKata.Models.{schemaName}";
             var className = entity.GetModelName();
-            sb.PublicClass(ns, className, sb =>
+            sb.PublicClass(className, sb =>
             {
                 var fullPrimaryKey = entity.GetFullPrimaryKey();
                 var allFields = fullPrimaryKey.Select(fr => fr.ResolvedField).Concat(entity.Fields).Distinct();
