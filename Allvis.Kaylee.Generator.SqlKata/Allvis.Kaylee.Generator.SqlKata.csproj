@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>Allvis.Kaylee.Generator.SqlKata</PackageId>
-    <Version>0.0.21</Version>
+    <Version>0.0.22</Version>
     <Authors>Sindre van der Linden</Authors>
     <Company>Allvis AS</Company>
     <Description>Generates SqlKata abstractions for the AST produced by "Allvis.Kaylee.Analyzer", using the new Roslyn Source Generator capabilities which ship with .NET 5.</Description>
