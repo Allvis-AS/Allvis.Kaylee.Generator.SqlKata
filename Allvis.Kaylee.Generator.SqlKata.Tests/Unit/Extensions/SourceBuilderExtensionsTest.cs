@@ -28,6 +28,23 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
 }
 ", sb.ToString());
         }
+        [Fact]
+        public void TestPublicClass_NoNamespace()
+        {
+            // Arrange
+            var sb = new SourceBuilder();
+            // Act
+            sb.PublicClass("Foo", sb =>
+            {
+                sb.AL("System.Console.WriteLine(\"Hello World!\");");
+            });
+            // Assert
+            Assert.Equal(@"public class Foo
+{
+    System.Console.WriteLine(""Hello World!"");
+}
+", sb.ToString());
+        }
 
         [Fact]
         public void TestPublicStaticClass()
@@ -46,6 +63,24 @@ namespace Allvis.Kaylee.Generator.SqlKata.Tests.Unit.Extensions
     {
         System.Console.WriteLine(""Hello World!"");
     }
+}
+", sb.ToString());
+        }
+
+        [Fact]
+        public void TestPublicStaticClass_NoNamespace()
+        {
+            // Arrange
+            var sb = new SourceBuilder();
+            // Act
+            sb.PublicStaticClass("Foo", sb =>
+            {
+                sb.AL("System.Console.WriteLine(\"Hello World!\");");
+            });
+            // Assert
+            Assert.Equal(@"public static class Foo
+{
+    System.Console.WriteLine(""Hello World!"");
 }
 ", sb.ToString());
         }

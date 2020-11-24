@@ -13,12 +13,19 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
             string className,
             Action<SourceBuilder> builder)
         {
-            sb.AL($"namespace {ns}");
-            sb.B(sb =>
+            sb.Namespace(ns, sb =>
             {
-                sb.AL($"public class {className}");
-                sb.B(builder);
+                sb.PublicClass(className, builder);
             });
+        }
+
+        public static void PublicClass(
+            this SourceBuilder sb,
+            string className,
+            Action<SourceBuilder> builder)
+        {
+            sb.AL($"public class {className}");
+            sb.B(builder);
         }
 
         public static void PublicStaticClass(
@@ -27,12 +34,28 @@ namespace Allvis.Kaylee.Generator.SqlKata.Extensions
             string className,
             Action<SourceBuilder> builder)
         {
-            sb.AL($"namespace {ns}");
-            sb.B(sb =>
+            sb.Namespace(ns, sb =>
             {
-                sb.AL($"public static class {className}");
-                sb.B(builder);
+                sb.PublicStaticClass(className, builder);
             });
+        }
+
+        public static void PublicStaticClass(
+            this SourceBuilder sb,
+            string className,
+            Action<SourceBuilder> builder)
+        {
+            sb.AL($"public static class {className}");
+            sb.B(builder);
+        }
+
+        private static void Namespace(
+            this SourceBuilder sb,
+            string ns,
+            Action<SourceBuilder> builder)
+        {
+            sb.AL($"namespace {ns}");
+            sb.B(builder);
         }
 
         public static void PublicStaticMethod(
