@@ -297,11 +297,16 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
             var entityName = mutation.Entity.DisplayName.Replace(".", "").Replace("::", "_");
             var mutationName = mutation.Name;
             var fullPrimaryKey = mutation.Entity.GetFullPrimaryKey();
-            var allFields = fullPrimaryKey.Concat(mutation.FieldReferences).Select(fr => fr.ResolvedField).Distinct();
-            var parameters = allFields.Select(f =>
+            var keyParameters = fullPrimaryKey.Select(fr =>
             {
-                return (Optional: IsNullable(f), Type: f.Type.ToCSharp(), Name: f.Name.ToCamelCase());
+                var field = fr.ResolvedField;
+                return (Optional: IsNullable(field), Type: field.Type.ToCSharp(), Name: $"k_{field.Name.ToPascalCase()}");
             });
+            var parameters = keyParameters.Concat(mutation.FieldReferences.Select(fr =>
+            {
+                var field = fr.ResolvedField;
+                return (Optional: IsNullable(field), Type: field.Type.ToCSharp(), Name: field.Name.ToCamelCase());
+            }));
             sb.PublicStaticMethod("global::System.Threading.Tasks.Task<int>", $"Update_{entityName}_{mutationName}", parameters.PrefixWithQueryFactory(), sb =>
             {
                 var arguments = string.Join(", ", parameters.Select(p => p.Name));

@@ -97,9 +97,9 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_User_UK_Hash_RAM4(hash, rAM4));
         }
-        public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, string? firstName, string? lastName)
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid k_UserId, string? firstName, string? lastName)
         {
-            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName(userId, firstName, lastName));
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName(k_UserId, firstName, lastName));
         }
         public static global::System.Threading.Tasks.Task<int> Update_auth_User_FullName_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string k_ContactEmail, string? firstName, string? lastName)
         {
@@ -113,9 +113,9 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_FullName_UK_Hash_RAM4(k_Hash, k_RAM4, firstName, lastName));
         }
-        public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, string contactEmail)
+        public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid k_UserId, string contactEmail)
         {
-            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_ContactInformation(userId, contactEmail));
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_User_ContactInformation(k_UserId, contactEmail));
         }
         public static global::System.Threading.Tasks.Task<int> Update_auth_User_ContactInformation_UK_ContactEmail(this global::SqlKata.Execution.QueryFactory _db, string k_ContactEmail, string contactEmail)
         {
@@ -199,9 +199,9 @@ namespace Allvis.Kaylee.Generated.SqlKata.Extensions
         {
             return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Delete_auth_UserRole(userId, roleId));
         }
-        public static global::System.Threading.Tasks.Task<int> Update_auth_UserRole_Flag(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int flag)
+        public static global::System.Threading.Tasks.Task<int> Update_auth_UserRole_Flag(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid k_UserId, global::System.Guid k_RoleId, int flag)
         {
-            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_UserRole_Flag(userId, roleId, flag));
+            return _db.ExecuteAsync(global::Allvis.Kaylee.Generated.SqlKata.Queries.Update_auth_UserRole_Flag(k_UserId, k_RoleId, flag));
         }
         public static async global::System.Threading.Tasks.Task<bool> Exists_auth_UserRoleLog(this global::SqlKata.Execution.QueryFactory _db, global::System.Guid userId, global::System.Guid roleId, int logId)
         {
