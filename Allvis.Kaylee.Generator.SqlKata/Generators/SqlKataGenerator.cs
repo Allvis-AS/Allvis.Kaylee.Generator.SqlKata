@@ -100,7 +100,7 @@ namespace Allvis.Kaylee.Generator.SqlKata
         {
             var queryFactoryExtensions = QueryFactoryExtensionsWriter.Write(ast);
             var source = SourceText.From(queryFactoryExtensions, Encoding.UTF8);
-            context.AddSource("Allvis.Kaylee.Generated.SqlKata.Extensions.QueryFactoryExtensions", source);
+            context.AddSource("Allvis.Kaylee.Generated.SqlKata.Extensions", source);
         }
     }
 }
