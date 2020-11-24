@@ -9,7 +9,7 @@ using System;
 
 namespace Allvis.Kaylee.Generator.SqlKata.Writers
 {
-    public static class QueryFactoryExtensionsWriter
+    public static class ExtensionsWriter
     {
         public static string Write(Ast ast)
         {
@@ -100,7 +100,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
         private static void WriteCount(this SourceBuilder sb, Entity entity)
         {
-            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
+            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Entities.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
 
@@ -154,7 +154,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
         private static void WriteGet(this SourceBuilder sb, Entity entity)
         {
-            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
+            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Entities.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
             var parameters = fullPrimaryKey.Select(fr =>
@@ -188,7 +188,7 @@ namespace Allvis.Kaylee.Generator.SqlKata.Writers
 
         private static void WriteGetUniqueKey(this SourceBuilder sb, Entity entity)
         {
-            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Models.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
+            var modelName = $"global::Allvis.Kaylee.Generated.SqlKata.Entities.{entity.DisplayName.Replace(".", "").Replace("::", ".")}";
             var entityName = entity.DisplayName.Replace(".", "").Replace("::", "_");
             var fullPrimaryKey = entity.GetFullPrimaryKey().ToList();
             foreach (var key in entity.UniqueKeys)

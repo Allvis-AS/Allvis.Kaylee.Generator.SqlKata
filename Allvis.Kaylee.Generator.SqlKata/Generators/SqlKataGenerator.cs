@@ -95,7 +95,7 @@ namespace Allvis.Kaylee.Generator.SqlKata
 
         private void AddQueryFactoryExtensions(GeneratorExecutionContext context, Ast ast)
         {
-            var queryFactoryExtensions = QueryFactoryExtensionsWriter.Write(ast);
+            var queryFactoryExtensions = ExtensionsWriter.Write(ast);
             var source = SourceText.From(queryFactoryExtensions, Encoding.UTF8);
             context.AddSource("Allvis.Kaylee.Generated.SqlKata.Extensions", source);
         }
